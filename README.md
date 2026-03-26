@@ -17,7 +17,7 @@ KRVR streams your PC VR games wirelessly to Apple Vision Pro with NVIDIA CloudXR
 
 ### PC (Windows)
 - Windows 10 (October 2018 update) or Windows 11
-- NVIDIA GeForce RTX 30 series or newer (RTX 40/50 recommended)
+- NVIDIA GeForce RTX 40 series or newer (RTX 50 recommended)
 - 5GHz WiFi network, 50Mbps+ sustained recommended
 - Latest NVIDIA drivers
 
@@ -72,7 +72,7 @@ Join the KRVR Discord: **[discord.gg/XXXXXXXX](https://discord.gg/XXXXXXXX)**
 ## FAQ
 
 **Q: Do AMD/Intel GPUs work?**
-A: No. KRVR requires NVIDIA RTX for CloudXR hardware encoding.
+A: No. KRVR requires NVIDIA RTX 40 series or newer for CloudXR hardware encoding.
 
 **Q: Can I use SteamVR games?**
 A: Yes, with OpenComposite. Replace `openvr_api.dll` in the game folder with the OpenComposite version.
