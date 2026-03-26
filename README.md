@@ -1,5 +1,7 @@
 # KRVR — Native PCVR Streaming for Apple Vision Pro
 
+> **ALPHA BUILD — This is an early testing release, not a finished product.** Expect bugs, rough edges, and things that need tuning. We need your feedback to make it great. Please report issues and share your experience on our [Discord](#community).
+
 KRVR streams your PC VR games wirelessly to Apple Vision Pro with NVIDIA CloudXR foveated encoding. Low latency, high quality, native visionOS experience.
 
 ## Features
@@ -66,6 +68,18 @@ For best quality, use a dedicated 5GHz WiFi network between your PC and Vision P
 Join the KRVR Discord: **[discord.gg/XXXXXXXX](https://discord.gg/XXXXXXXX)**
 
 *(Replace with your actual Discord invite link)*
+
+## Help Us Improve
+
+This is an alpha release — your feedback is critical. We need help dialling in resolution, quality, and compatibility across different setups. Please share:
+
+- Your GPU model and driver version
+- Games you've tested (working or not)
+- Network setup (router, connection type)
+- Screenshots or clips of any issues
+- Quality/latency impressions
+
+Post feedback in **#bug-reports** or **#feature-requests** on Discord.
 
 ## FAQ
 
