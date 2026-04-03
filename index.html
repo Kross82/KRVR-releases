@@ -106,10 +106,10 @@
         }
 
         .hero-logo {
-            width: min(500px, 80vw);
+            width: min(700px, 90vw);
             height: auto;
-            margin-bottom: 32px;
-            filter: drop-shadow(0 0 40px rgba(108, 180, 255, 0.3));
+            margin-bottom: 24px;
+            display: block;
         }
 
         .hero h1 {
@@ -411,7 +411,7 @@
         /* Mobile */
         @media (max-width: 640px) {
             .hero { padding: 120px 0 60px; }
-            .hero-logo { width: 200px; }
+            .hero-logo { width: 90vw; }
             .stats { gap: 24px; }
             .stat-value { font-size: 28px; }
             .nav-links { gap: 16px; }
@@ -449,36 +449,31 @@
 
 <section class="stats">
     <div class="stat">
-        <div class="stat-value">90fps</div>
-        <div class="stat-label">Refresh Rate</div>
+        <div class="stat-value">Eye-Tracked</div>
+        <div class="stat-label">Foveation</div>
     </div>
     <div class="stat">
-        <div class="stat-value">3660x3200</div>
-        <div class="stat-label">Per Eye Resolution</div>
+        <div class="stat-value">H.265</div>
+        <div class="stat-label">Encoding</div>
     </div>
     <div class="stat">
-        <div class="stat-value">&lt;25ms</div>
-        <div class="stat-label">Motion-to-Photon</div>
+        <div class="stat-value">WiFi 6</div>
+        <div class="stat-label">Ready</div>
     </div>
     <div class="stat">
-        <div class="stat-value">200Mbps</div>
-        <div class="stat-label">Per Eye Bitrate</div>
+        <div class="stat-value">Free</div>
+        <div class="stat-label">Beta</div>
     </div>
 </section>
 
 <section class="features" id="features">
     <div class="container">
-        <h2>Two Ways to Stream</h2>
+        <h2>Features</h2>
         <div class="features-grid">
             <div class="feature-card glass">
                 <div class="feature-icon">&#9889;</div>
-                <h3>CloudXR Mode <span class="badge badge-live">Live</span></h3>
+                <h3>CloudXR Streaming <span class="badge badge-live">Live</span></h3>
                 <p>Powered by NVIDIA CloudXR with Apple FoveatedStreaming. Eye-tracked foveated encoding sends full resolution where you look, compressed periphery. Works with any OpenXR game.</p>
-            </div>
-            <div class="feature-card glass">
-                <div class="feature-icon">&#127918;</div>
-                <h3>SteamVR Mode <span class="badge badge-soon">Coming Soon</span></h3>
-                <p>Native SteamVR DirectMode driver with dual per-eye NVENC H.265 encoding. No CloudXR dependency. Works with OpenVR and OpenXR games. Supports AMD and NVIDIA GPUs.</p>
             </div>
             <div class="feature-card glass">
                 <div class="feature-icon">&#128065;</div>
@@ -507,7 +502,7 @@
 <section class="games" id="games">
     <div class="container">
         <h2>Tested Games</h2>
-        <p class="games-subtitle">Any OpenXR game works natively. SteamVR games work with OpenComposite.</p>
+        <p class="games-subtitle">Any OpenXR game works natively. OpenVR games supported via OpenComposite.</p>
         <div class="games-list">
             <div class="game-tag glass">iRacing</div>
             <div class="game-tag glass">MSFS 2024</div>
@@ -528,7 +523,7 @@
             <div class="req-card glass">
                 <h3>Windows PC</h3>
                 <ul>
-                    <li>NVIDIA GeForce RTX 40 series or newer</li>
+                    <li>NVIDIA GeForce RTX 30 series or newer</li>
                     <li>Windows 10 or Windows 11</li>
                     <li>Latest NVIDIA drivers</li>
                     <li>5GHz WiFi, 50Mbps+ sustained</li>
@@ -549,7 +544,7 @@
                     <li>PSVR2 Sense controllers</li>
                     <li>Dedicated WiFi 6 access point</li>
                     <li>PC wired to router via Ethernet</li>
-                    <li>OpenComposite for SteamVR games</li>
+                    <li>OpenComposite for OpenVR games</li>
                 </ul>
             </div>
         </div>
