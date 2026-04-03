@@ -93,6 +93,12 @@ A: Configurable. Default is 5200 render / 2080 stream with foveated encoding. Ad
 **Q: Does it work over the internet?**
 A: KRVR is designed for local network streaming. Internet streaming is not supported.
 
+**Q: I get a crash or connection error on first launch?**
+A: Close **Sunshine/Moonlight** if running — it uses the same UDP ports (47998-48012) and will conflict with KRVR. If that's not the issue, try running KRVR as administrator once, then restart normally.
+
+**Q: KRVR won't connect after switching from another VR streaming app?**
+A: Click the CloudXR button at the bottom of the app to reset the OpenXR runtime. This sets KRVR as the active runtime.
+
 ---
 
 *KRVR uses NVIDIA CloudXR technology. NVIDIA and CloudXR are trademarks of NVIDIA Corporation.*
