@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRVR — Native PCVR Streaming for Apple Vision Pro</title>
+    <meta name="description" content="Stream your PC VR games wirelessly to Apple Vision Pro. Foveated encoding, 90fps, native resolution. iRacing, MSFS, Le Mans Ultimate and more.">
+    <link rel="icon" href="assets/krvr_icon.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-highlight: rgba(255, 255, 255, 0.18);
+            --glass-glow: rgba(120, 180, 255, 0.15);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --accent: #6cb4ff;
+            --accent-glow: rgba(108, 180, 255, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Ambient background */
+        .bg-ambient {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(60, 100, 180, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(80, 60, 160, 0.08), transparent),
+                radial-gradient(ellipse 50% 30% at 20% 60%, rgba(40, 120, 200, 0.06), transparent);
+        }
+
+        /* Glass card */
+        .glass {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            backdrop-filter: blur(40px) saturate(1.5);
+            -webkit-backdrop-filter: blur(40px) saturate(1.5);
+        }
+
+        .glass:hover {
+            border-color: var(--glass-highlight);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 var(--glass-highlight);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #fff 0%, #6cb4ff 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+
+        /* Hero */
+        .hero {
+            padding: 160px 0 100px;
+            text-align: center;
+        }
+
+        .hero-logo {
+            width: 280px;
+            height: auto;
+            margin-bottom: 32px;
+            filter: drop-shadow(0 0 40px rgba(108, 180, 255, 0.3));
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 20px);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4a9eff, #2d7ad4);
+            color: #fff;
+            border: 1px solid rgba(108, 180, 255, 0.4);
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(108, 180, 255, 0.4);
+        }
+
+        .btn-glass {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+        }
+        .btn-glass:hover {
+            background: var(--glass-highlight);
+            transform: translateY(-2px);
+        }
+
+        /* Stats bar */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            padding: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 0;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 48px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 8px;
+        }
+        .badge-live {
+            background: rgba(52, 199, 89, 0.15);
+            color: #34c759;
+            border: 1px solid rgba(52, 199, 89, 0.3);
+        }
+        .badge-soon {
+            background: rgba(255, 159, 10, 0.15);
+            color: #ff9f0a;
+            border: 1px solid rgba(255, 159, 10, 0.3);
+        }
+
+        /* Games */
+        .games {
+            padding: 80px 0;
+        }
+
+        .games h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .games-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .games-list {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .game-tag {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Requirements */
+        .requirements {
+            padding: 80px 0;
+        }
+
+        .requirements h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .req-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .req-card {
+            padding: 32px;
+        }
+
+        .req-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .req-card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .req-card li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .req-card li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        /* CTA */
+        .cta {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-card {
+            padding: 60px 40px;
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(108, 180, 255, 0.08), rgba(80, 60, 160, 0.06));
+            border: 1px solid rgba(108, 180, 255, 0.15);
+        }
+
+        .cta h2 {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+
+        .cta .hero-buttons {
+            margin-bottom: 24px;
+        }
+
+        .email-note {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .email-note a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--text-primary); }
+
+        .footer-copy {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .hero { padding: 120px 0 60px; }
+            .hero-logo { width: 200px; }
+            .stats { gap: 24px; }
+            .stat-value { font-size: 28px; }
+            .nav-links { gap: 16px; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-ambient"></div>
+
+<nav>
+    <div class="container">
+        <div class="nav-logo">KRVR</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#games">Games</a>
+            <a href="https://discord.gg/7RxKBNTbdh" target="_blank">Discord</a>
+            <a href="https://x.com/KRVR_AVP" target="_blank">X</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <img src="assets/krvr_icon.png" alt="KRVR" class="hero-logo">
+        <h1>PCVR on Apple Vision Pro</h1>
+        <p>Stream your PC VR games wirelessly to Vision Pro. Foveated encoding, native resolution, 90fps. Built for sim racers, flight simmers, and VR enthusiasts.</p>
+        <div class="hero-buttons">
+            <a href="https://testflight.apple.com/join/gNNdfEzx" class="btn btn-primary" target="_blank">Join the Beta</a>
+            <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for PC</a>
+        </div>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="stat">
+        <div class="stat-value">90fps</div>
+        <div class="stat-label">Refresh Rate</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">3660x3200</div>
+        <div class="stat-label">Per Eye Resolution</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">&lt;25ms</div>
+        <div class="stat-label">Motion-to-Photon</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">200Mbps</div>
+        <div class="stat-label">Per Eye Bitrate</div>
+    </div>
+</section>
+
+<section class="features" id="features">
+    <div class="container">
+        <h2>Two Ways to Stream</h2>
+        <div class="features-grid">
+            <div class="feature-card glass">
+                <div class="feature-icon">&#9889;</div>
+                <h3>CloudXR Mode <span class="badge badge-live">Live</span></h3>
+                <p>Powered by NVIDIA CloudXR with Apple FoveatedStreaming. Eye-tracked foveated encoding sends full resolution where you look, compressed periphery. Works with any OpenXR game.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#127918;</div>
+                <h3>SteamVR Mode <span class="badge badge-soon">Coming Soon</span></h3>
+                <p>Native SteamVR DirectMode driver with dual per-eye NVENC H.265 encoding. No CloudXR dependency. Works with OpenVR and OpenXR games. Supports AMD and NVIDIA GPUs.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128065;</div>
+                <h3>Foveated Encoding</h3>
+                <p>NVENC QP Delta Maps concentrate bitrate at the centre of your vision. Same total bandwidth, dramatically better perceived quality. Eye tracking driven in CloudXR mode.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#127919;</div>
+                <h3>Game Profiles</h3>
+                <p>Per-game resolution, quality, and streaming settings. Auto-applied when you launch a game from the built-in library. Dial in the perfect balance for each title.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128247;</div>
+                <h3>Passthrough &amp; Mixed Reality</h3>
+                <p>Alpha blending support for cockpit sims. See your real desk and peripherals while racing or flying. Auto-switches between passthrough and full immersion.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128377;</div>
+                <h3>PSVR2 Sense Controllers</h3>
+                <p>Full 6DOF tracking and input with PlayStation VR2 Sense controllers on visionOS 26. Trigger, grip, joystick, buttons, and haptic feedback.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="games" id="games">
+    <div class="container">
+        <h2>Tested Games</h2>
+        <p class="games-subtitle">Any OpenXR game works natively. SteamVR games work with OpenComposite.</p>
+        <div class="games-list">
+            <div class="game-tag glass">iRacing</div>
+            <div class="game-tag glass">MSFS 2024</div>
+            <div class="game-tag glass">Le Mans Ultimate</div>
+            <div class="game-tag glass">Assetto Corsa EVO</div>
+            <div class="game-tag glass">Kayak VR: Mirage</div>
+            <div class="game-tag glass">AirCar</div>
+            <div class="game-tag glass">DCS World</div>
+            <div class="game-tag glass">VRChat</div>
+        </div>
+    </div>
+</section>
+
+<section class="requirements" id="requirements">
+    <div class="container">
+        <h2>Requirements</h2>
+        <div class="req-grid">
+            <div class="req-card glass">
+                <h3>Windows PC</h3>
+                <ul>
+                    <li>NVIDIA GeForce RTX 40 series or newer</li>
+                    <li>Windows 10 or Windows 11</li>
+                    <li>Latest NVIDIA drivers</li>
+                    <li>5GHz WiFi, 50Mbps+ sustained</li>
+                </ul>
+            </div>
+            <div class="req-card glass">
+                <h3>Apple Vision Pro</h3>
+                <ul>
+                    <li>visionOS 26.4 or later</li>
+                    <li>TestFlight app installed</li>
+                    <li>Same local network as PC</li>
+                    <li>WiFi 6 recommended</li>
+                </ul>
+            </div>
+            <div class="req-card glass">
+                <h3>Optional</h3>
+                <ul>
+                    <li>PSVR2 Sense controllers</li>
+                    <li>Dedicated WiFi 6 access point</li>
+                    <li>PC wired to router via Ethernet</li>
+                    <li>OpenComposite for SteamVR games</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <div class="cta-card glass">
+            <h2>Ready to Play?</h2>
+            <p>KRVR is in beta. Join TestFlight to get started, or download the PC app to prepare your setup.</p>
+            <div class="hero-buttons">
+                <a href="https://testflight.apple.com/join/gNNdfEzx" class="btn btn-primary" target="_blank">Join TestFlight Beta</a>
+                <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for PC</a>
+            </div>
+            <p class="email-note">Want to know when KRVR hits the App Store? <a href="mailto:kross09@googlemail.com?subject=KRVR%20App%20Store%20Notification">Get notified</a></p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-links">
+            <a href="https://testflight.apple.com/join/gNNdfEzx" target="_blank">TestFlight</a>
+            <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank">Download</a>
+            <a href="https://discord.gg/7RxKBNTbdh" target="_blank">Discord</a>
+            <a href="https://x.com/KRVR_AVP" target="_blank">@KRVR_AVP</a>
+            <a href="https://github.com/Kross82/KRVR-releases/issues" target="_blank">Report Issue</a>
+        </div>
+        <p class="footer-copy">KRVR uses NVIDIA CloudXR technology. NVIDIA and CloudXR are trademarks of NVIDIA Corporation.</p>
+    </div>
+</footer>
+
+</body>
+</html>
