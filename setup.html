@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRVR — Setup Guide</title>
+    <meta name="description" content="Step-by-step guide to set up KRVR for PC VR streaming to Apple Vision Pro.">
+    <link rel="icon" href="assets/krvr_icon.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-highlight: rgba(255, 255, 255, 0.18);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --accent: #6cb4ff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .bg-ambient {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(60, 100, 180, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(80, 60, 160, 0.08), transparent),
+                radial-gradient(ellipse 50% 30% at 20% 60%, rgba(40, 120, 200, 0.06), transparent);
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            backdrop-filter: blur(40px) saturate(1.5);
+            -webkit-backdrop-filter: blur(40px) saturate(1.5);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        nav .container {
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #fff 0%, #6cb4ff 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+
+        .page-header {
+            padding: 140px 0 40px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .guide-section {
+            padding: 32px;
+            margin-bottom: 20px;
+        }
+
+        .guide-section h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .guide-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 20px 0 8px;
+        }
+
+        .guide-section p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .guide-section ol, .guide-section ul {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .guide-section li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .guide-section li strong {
+            color: var(--text-primary);
+        }
+
+        .guide-section .warning {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #ff8888;
+            margin: 12px 0;
+        }
+
+        .guide-section .tip {
+            background: rgba(108, 180, 255, 0.08);
+            border: 1px solid rgba(108, 180, 255, 0.15);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: var(--accent);
+            margin: 12px 0;
+        }
+
+        .req-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .req-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .req-box h4 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .req-box li {
+            font-size: 13px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 32px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4a9eff, #2d7ad4);
+            color: #fff;
+            border: 1px solid rgba(108, 180, 255, 0.4);
+        }
+        .btn-primary:hover { transform: translateY(-2px); }
+
+        .btn-glass {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+        .btn-glass:hover { background: var(--glass-highlight); transform: translateY(-2px); }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--text-primary); }
+
+        .footer-copy {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 640px) {
+            .page-header { padding: 120px 0 30px; }
+            .page-header h1 { font-size: 28px; }
+            .req-grid { grid-template-columns: 1fr; }
+            .guide-section { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-ambient"></div>
+
+<nav>
+    <div class="container">
+        <a href="index.html" class="nav-logo">KRVR</a>
+        <div class="nav-links">
+            <a href="index.html#features">Features</a>
+            <a href="index.html#games">Games</a>
+            <a href="setup.html">Setup</a>
+            <a href="https://discord.gg/7RxKBNTbdh" target="_blank" style="display:flex;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"><svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A37.5 37.5 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.6 4.9a.2.2 0 00-.1.1C1.5 18.7-.9 32.2.3 45.5v.1a58.8 58.8 0 0017.7 9 .2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.8 38.8 0 01-5.5-2.6.2.2 0 01 0-.4c.4-.3.7-.6 1.1-.8a.2.2 0 01.2 0c11.6 5.3 24.2 5.3 35.7 0a.2.2 0 01.3 0l1 .9a.2.2 0 010 .3 36.4 36.4 0 01-5.5 2.6.2.2 0 00-.1.4 47.2 47.2 0 003.7 5.8.2.2 0 00.2.1 58.6 58.6 0 0017.7-9v-.1c1.4-15-2.3-28.4-9.8-40.1a.2.2 0 00-.1-.1zM23.7 37.3c-3.5 0-6.3-3.2-6.3-7s2.8-7 6.3-7 6.4 3.2 6.3 7-2.8 7-6.3 7zm23.3 0c-3.5 0-6.3-3.2-6.3-7s2.8-7 6.3-7 6.4 3.2 6.3 7-2.8 7-6.3 7z" fill="#5865F2"/></svg></a>
+            <a href="https://x.com/KRVR_AVP" target="_blank" style="display:flex;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        </div>
+    </div>
+</nav>
+
+<section class="page-header">
+    <div class="container">
+        <h1>Setup Guide</h1>
+        <p>Get PCVR streaming working on your Apple Vision Pro in under 5 minutes.</p>
+    </div>
+</section>
+
+<section style="padding: 0 0 40px;">
+    <div class="container">
+
+        <!-- Requirements -->
+        <div class="guide-section glass">
+            <h2>Requirements</h2>
+            <div class="req-grid">
+                <div class="req-box">
+                    <h4>Windows PC</h4>
+                    <ul>
+                        <li>NVIDIA RTX 4090 or RTX 50 series GPU</li>
+                        <li>Windows 10 or Windows 11</li>
+                        <li>Latest NVIDIA drivers</li>
+                        <li>5GHz WiFi or Ethernet (PC wired recommended)</li>
+                    </ul>
+                </div>
+                <div class="req-box">
+                    <h4>Apple Vision Pro</h4>
+                    <ul>
+                        <li>visionOS 26.4 or later</li>
+                        <li>Same local network as your PC</li>
+                        <li>WiFi 6 recommended</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="warning">AMD, Intel, and RTX 30 series GPUs are not supported. CloudXR 6.0 requires an RTX 4090 or newer NVIDIA GPU.</div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="guide-section glass">
+            <h2>Step 1 — Install the PC App</h2>
+            <ol>
+                <li>Download <strong>KRVR-Setup.exe</strong> from <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank" style="color: var(--accent);">krvr.app</a></li>
+                <li>Run the installer — it sets up firewall rules, the OpenXR runtime, and VC++ automatically</li>
+                <li>First launch may ask for <strong>admin access once</strong> to set the OpenXR runtime — allow it</li>
+                <li>KRVR appears on your desktop and Start menu</li>
+            </ol>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="guide-section glass">
+            <h2>Step 2 — Install the Vision Pro App</h2>
+            <ol>
+                <li>Open this link on your Vision Pro: <a href="https://testflight.apple.com/join/gNNdfEzx" target="_blank" style="color: var(--accent);">testflight.apple.com/join/gNNdfEzx</a></li>
+                <li>If you don't have TestFlight, the App Store will prompt you to install it</li>
+                <li>Tap <strong>Install</strong> next to KRVR</li>
+                <li>KRVR appears on your home screen</li>
+            </ol>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="guide-section glass">
+            <h2>Step 3 — Connect</h2>
+            <ol>
+                <li>Open <strong>KRVR on your PC</strong></li>
+                <li>Check the runtime status shows <strong>"CloudXR is active"</strong> — if not, click "Set CloudXR"</li>
+                <li>Select your network adapter IP from the dropdown</li>
+                <li>Press <strong>Start</strong> — the status lights should go green for Bonjour</li>
+                <li>Open <strong>KRVR on your Vision Pro</strong></li>
+                <li>Tap <strong>Connect</strong> — select your PC from the list</li>
+                <li><strong>First time only:</strong> scan the QR code shown on your PC monitor to pair the devices</li>
+                <li>You're connected — the streaming session is active</li>
+            </ol>
+            <div class="tip">The QR pairing is one-time only. Future connections skip it automatically.</div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="guide-section glass">
+            <h2>Step 4 — Launch a Game</h2>
+            <ol>
+                <li>Make sure KRVR is <strong>connected before launching any game</strong></li>
+                <li>Launch your VR game from Steam, the desktop, or the KRVR games browser in the pill</li>
+                <li>The game should detect VR and appear in your headset</li>
+            </ol>
+
+            <h3>Native OpenXR Games</h3>
+            <p>Games like iRacing, MSFS, Kayak VR work out of the box — just launch normally. Make sure the game's display mode is set to <strong>OpenXR</strong> in its settings.</p>
+
+            <h3>SteamVR / OpenVR Games</h3>
+            <p>Games like Assetto Corsa, AirCar, VRChat need <strong>OpenComposite</strong> to work with CloudXR:</p>
+            <ol>
+                <li>Install <a href="https://gitlab.com/znixian/OpenOVR" target="_blank" style="color: var(--accent);">OpenComposite</a></li>
+                <li>Close SteamVR completely before launching</li>
+                <li>Launch the game — OpenComposite bridges it to CloudXR</li>
+            </ol>
+        </div>
+
+        <!-- Resolution -->
+        <div class="guide-section glass">
+            <h2>Resolution Settings</h2>
+            <ul>
+                <li><strong>Render</strong> — GPU render quality. Higher = sharper, more GPU load. Default 3800. Try 4200-4800 on RTX 4090/5080.</li>
+                <li><strong>Stream</strong> — encode/network resolution. Must be multiple of 16. Default 1200. Increase for sharper streaming.</li>
+                <li><strong>Inset</strong> — foveation gaze box size. Lower = bigger sharp centre area. Default 40.</li>
+            </ul>
+            <p>Press <strong>Save</strong> after adjusting. Reconnect the session to apply new settings.</p>
+            <div class="tip">Start with defaults and increase Render first. Only increase Stream if you have bandwidth headroom.</div>
+        </div>
+
+        <!-- Cockpit Passthrough -->
+        <div class="guide-section glass">
+            <h2>Cockpit Passthrough</h2>
+            <p>See your real steering wheel, HOTAS, and cockpit hardware through the virtual view.</p>
+            <ol>
+                <li>Tap the <strong>atom icon</strong> in the pill to enable passthrough</li>
+                <li>Tap the <strong>pencil icon</strong> (appears for 3 seconds) to enter edit mode</li>
+                <li>A white dot follows your right index finger — move it to where you want to start</li>
+                <li><strong>Pinch</strong> to confirm the start position — a white line begins following your finger</li>
+                <li>Trace the shape around the area you want to see through</li>
+                <li>Tap the <strong>checkmark</strong> to close the shape</li>
+                <li>The drawn area becomes a passthrough window showing the real world</li>
+            </ol>
+            <div class="tip">The mask saves automatically and loads on next launch. Tap the atom icon again to toggle on/off. Tap pencil to edit, trash to redraw.</div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="guide-section glass">
+            <h2>Troubleshooting</h2>
+
+            <h3>Can't connect / session management failed</h3>
+            <ul>
+                <li>Check the correct IP is selected — pick the one on the same network as your Vision Pro</li>
+                <li>Close <strong>Sunshine, Moonlight, or Virtual Desktop Streamer</strong> — they use the same ports</li>
+                <li>Check <strong>Windows Firewall</strong> — allow KRVR through both Private and Public networks</li>
+                <li>Disconnect any <strong>VPN</strong> — it can route traffic to the wrong adapter</li>
+                <li>Make sure the runtime shows <strong>"CloudXR is active"</strong> in the PC app</li>
+                <li>Restart the PC app (Stop then Start) to clear any stale session</li>
+            </ul>
+
+            <h3>Game launches on monitor instead of VR</h3>
+            <ul>
+                <li>KRVR must be connected <strong>before</strong> launching the game</li>
+                <li>Check game display settings are set to <strong>OpenXR</strong> (not SteamVR, not Oculus)</li>
+                <li>SteamVR/OpenVR games need <strong>OpenComposite</strong></li>
+                <li>Make sure <strong>SteamVR is closed</strong> — it fights over the runtime</li>
+                <li>Some games have a "Launch in VR" button — check the game's main menu</li>
+            </ul>
+
+            <h3>QR code issues</h3>
+            <ul>
+                <li>QR keeps appearing every connection — toggle Force QR on, scan once, then toggle off</li>
+                <li>The pairing saves after one successful scan</li>
+            </ul>
+
+            <h3>No audio in headset</h3>
+            <ul>
+                <li>Check the audio toggle is set to <strong>Headset</strong> in the PC app</li>
+                <li>Restart the session (Stop then Start then reconnect)</li>
+            </ul>
+
+            <h3>Headset sleep disconnects session</h3>
+            <ul>
+                <li>Known visionOS limitation — the headset kills network when it sleeps</li>
+                <li>For short breaks: pause in KRVR before removing the headset</li>
+                <li>For long breaks: reconnect after putting the headset back on</li>
+            </ul>
+
+            <h3>Image looks blurry</h3>
+            <ul>
+                <li>Increase the Render slider (try 4200-4800)</li>
+                <li>Increase the Stream slider (try 1520-2080)</li>
+                <li>Make sure you're on <strong>5GHz WiFi</strong>, not 2.4GHz</li>
+                <li>Wired Ethernet on the PC makes a big difference</li>
+            </ul>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-buttons">
+            <a href="https://testflight.apple.com/join/gNNdfEzx" class="btn btn-primary" target="_blank">Join TestFlight Beta</a>
+            <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for PC</a>
+        </div>
+
+        <p style="text-align: center; font-size: 13px; color: var(--text-secondary);">Need more help? <a href="https://discord.gg/7RxKBNTbdh" target="_blank" style="color: var(--accent); text-decoration: none;">Join our Discord</a></p>
+
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-links">
+            <a href="https://testflight.apple.com/join/gNNdfEzx" target="_blank">TestFlight</a>
+            <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank">Download</a>
+            <a href="https://discord.gg/7RxKBNTbdh" target="_blank">Discord</a>
+            <a href="https://x.com/KRVR_AVP" target="_blank">@KRVR_AVP</a>
+            <a href="https://github.com/Kross82/KRVR-releases/issues" target="_blank">Report Issue</a>
+            <a href="privacy.html">Privacy Policy</a>
+        </div>
+        <p class="footer-copy">KRVR uses NVIDIA CloudXR technology. NVIDIA and CloudXR are trademarks of NVIDIA Corporation.</p>
+    </div>
+</footer>
+
+</body>
+</html>
