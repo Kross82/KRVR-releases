@@ -504,19 +504,34 @@
                 <p>Eye-tracked foveated rendering powered by Apple FoveatedStreaming and CloudXR. Full detail where you look, reduced periphery. Same total bandwidth, dramatically better perceived quality.</p>
             </div>
             <div class="feature-card glass">
-                <div class="feature-icon">&#127919;</div>
-                <h3>Game Profiles</h3>
-                <p>Per-game resolution, quality, and streaming settings. Auto-applied when you launch a game from the built-in library. Dial in the perfect balance for each title.</p>
-            </div>
-            <div class="feature-card glass">
                 <div class="feature-icon">&#128247;</div>
                 <h3>Cockpit Passthrough</h3>
-                <p>Draw a passthrough window around your real steering wheel, HOTAS, or cockpit hardware. Trace the shape with your finger, and that area becomes a real-world cutout in VR. Saves automatically between sessions.</p>
+                <p>Draw passthrough windows around your steering wheel, HOTAS, or cockpit hardware. Multiple masks, world-anchored positions, motion compensation for sim rigs. Edit handles to fine-tune shape between sessions.</p>
             </div>
             <div class="feature-card glass">
                 <div class="feature-icon">&#128377;</div>
                 <h3>PSVR2 Sense Controllers</h3>
-                <p>Full 6DOF tracking and input with PlayStation VR2 Sense controllers on visionOS 26. Trigger, grip, joystick, buttons, and haptic feedback.</p>
+                <p>Full 6DOF tracking and input with PlayStation VR2 Sense controllers. Trigger, grip, joystick, buttons, and haptic feedback. Velocity tracking for throwing and physics interactions.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#9995;</div>
+                <h3>Hand Tracking <span class="badge badge-live">Live</span></h3>
+                <p>See your hands and fingers in supported games via ARKit hand tracking. 26-joint skeleton sent to PC at 90Hz. Games with native hand tracking support show your real hand poses.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#127918;</div>
+                <h3>In-Headset Game Launcher</h3>
+                <p>Browse and launch your VR games without taking off the headset. Built-in game library scans Steam, Epic, and GOG. Desktop viewer lets you see and manage your PC screen in VR.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#129513;</div>
+                <h3>Boundary System</h3>
+                <p>Draw a safety boundary around your play space. Visual fence fades in as you approach the edge — green to red based on distance. Editable handles to adjust after placement.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128075;</div>
+                <h3>Wrist Gesture Controls</h3>
+                <p>Tap your wrist to control KRVR without controllers. Two-finger tap left wrist for the menu, four-finger tap for desktop, two-finger tap right wrist to toggle masks. Works in any game.</p>
             </div>
         </div>
     </div>
@@ -533,8 +548,10 @@
             <div class="game-tag glass">Assetto Corsa EVO</div>
             <div class="game-tag glass">Kayak VR: Mirage</div>
             <div class="game-tag glass">AirCar</div>
+            <div class="game-tag glass">Half-Life: Alyx</div>
             <div class="game-tag glass">DCS World</div>
-            <div class="game-tag glass">VRChat</div>
+            <div class="game-tag glass">Star Citizen</div>
+            <div class="game-tag glass">Forefront</div>
         </div>
     </div>
 </section>
@@ -580,7 +597,7 @@
             <h3 style="font-size: 16px; margin-bottom: 12px; color: var(--accent);">Troubleshooting</h3>
             <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
                 <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">Sunshine / Moonlight conflict</strong> — Close Sunshine before running KRVR. Both use overlapping UDP ports (47998-48012). Sunshine must be fully stopped or KRVR won't connect.</li>
-                <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">First connection fails</strong> — Run KRVR as administrator once, then restart normally. The installer sets permissions but some antivirus software can block it.</li>
+                <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">First connection fails</strong> — Make sure KRVR is allowed through Windows Firewall. The installer sets rules automatically but some antivirus software can block it. Try disabling your firewall briefly to test.</li>
                 <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">Black screen after connecting</strong> — Make sure you launch the game after the session is connected (green status). Some games need OpenComposite to work with CloudXR.</li>
             </ul>
         </div>

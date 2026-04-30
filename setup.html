@@ -296,7 +296,7 @@
                 <div class="req-box">
                     <h4>Windows PC</h4>
                     <ul>
-                        <li>NVIDIA RTX 4090 or RTX 50 series GPU</li>
+                        <li>NVIDIA RTX 40 series or newer GPU</li>
                         <li>Windows 10 or Windows 11</li>
                         <li>Latest NVIDIA drivers</li>
                         <li>5GHz WiFi or Ethernet (PC wired recommended)</li>
@@ -311,7 +311,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="warning">AMD, Intel, and RTX 30 series GPUs are not supported. CloudXR 6.0 requires an RTX 4090 or newer NVIDIA GPU.</div>
+            <div class="warning">AMD, Intel, and RTX 30 series GPUs are not supported. CloudXR 6.0 requires an NVIDIA RTX 40 series or newer GPU.</div>
         </div>
 
         <!-- Step 1 -->
@@ -319,8 +319,7 @@
             <h2>Step 1 — Install the PC App</h2>
             <ol>
                 <li>Download <strong>KRVR-Setup.exe</strong> from <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank" style="color: var(--accent);">krvr.app</a></li>
-                <li>Run the installer — it sets up firewall rules, the OpenXR runtime, and VC++ automatically</li>
-                <li>First launch may ask for <strong>admin access once</strong> to set the OpenXR runtime — allow it</li>
+                <li>Run the installer — it sets up firewall rules, the OpenXR runtime, and permissions automatically</li>
                 <li>KRVR appears on your desktop and Start menu</li>
             </ol>
         </div>
@@ -365,7 +364,7 @@
             <p>Games like iRacing, MSFS, Kayak VR work out of the box — just launch normally. Make sure the game's display mode is set to <strong>OpenXR</strong> in its settings.</p>
 
             <h3>SteamVR / OpenVR Games</h3>
-            <p>Games like Assetto Corsa, AirCar, VRChat need <strong>OpenComposite</strong> to work with CloudXR:</p>
+            <p>Games like Assetto Corsa and AirCar need <strong>OpenComposite</strong> to work with CloudXR:</p>
             <ol>
                 <li>Install <a href="https://gitlab.com/znixian/OpenOVR" target="_blank" style="color: var(--accent);">OpenComposite</a></li>
                 <li>Close SteamVR completely before launching</li>
@@ -388,17 +387,28 @@
         <!-- Cockpit Passthrough -->
         <div class="guide-section glass">
             <h2>Cockpit Passthrough</h2>
-            <p>See your real steering wheel, HOTAS, and cockpit hardware through the virtual view.</p>
+            <p>See your real steering wheel, HOTAS, and cockpit hardware through the virtual view. Create multiple masks, each world-anchored to stay in place between sessions.</p>
             <ol>
-                <li>Tap the <strong>atom icon</strong> in the pill to enable passthrough</li>
-                <li>Tap the <strong>pencil icon</strong> (appears for 3 seconds) to enter edit mode</li>
-                <li>A white dot follows your right index finger — move it to where you want to start</li>
-                <li><strong>Pinch</strong> to confirm the start position — a white line begins following your finger</li>
-                <li>Trace the shape around the area you want to see through</li>
-                <li>Tap the <strong>checkmark</strong> to close the shape</li>
+                <li>Tap the <strong>atom icon</strong> in the pill to open the mask panel</li>
+                <li>Tap <strong>+</strong> to create a new mask</li>
+                <li>Choose <strong>Freehand</strong> (trace with finger) or <strong>Box</strong> (place two corners)</li>
+                <li>A dot follows your right index finger — <strong>pinch</strong> to confirm the start position</li>
+                <li>For freehand: trace the shape, then tap <strong>Done</strong> to close it</li>
+                <li>For box: pinch to place the first corner, then pinch again for the opposite corner</li>
                 <li>The drawn area becomes a passthrough window showing the real world</li>
             </ol>
-            <div class="tip">The mask saves automatically and loads on next launch. Tap the atom icon again to toggle on/off. Tap pencil to edit, trash to redraw.</div>
+
+            <h3>Editing</h3>
+            <p>Tap the <strong>pencil icon</strong> on any mask to enter edit mode. Cyan handles appear on the shape — pinch near a handle to grab and drag it. A green handle at the centre moves the whole mask. Tap <strong>Done</strong> when finished.</p>
+
+            <h3>Options</h3>
+            <ul>
+                <li><strong>Eye icon</strong> — toggle mask visibility on/off</li>
+                <li><strong>Gyroscope icon</strong> — enable motion compensation for sim rigs (requires SimHub)</li>
+                <li><strong>Straight/Curved</strong> — toggle between sharp corners and smooth curves</li>
+                <li><strong>Handle count</strong> — adjust precision (10, 16, or 24 control points)</li>
+            </ul>
+            <div class="tip">Masks save automatically with world anchors. They load in the same position on next launch. Tap the headset battery icon to recentre all masks to your current head position.</div>
         </div>
 
         <!-- Troubleshooting -->
@@ -426,8 +436,8 @@
 
             <h3>QR code issues</h3>
             <ul>
-                <li>QR keeps appearing every connection — toggle Force QR on, scan once, then toggle off</li>
-                <li>The pairing saves after one successful scan</li>
+                <li>QR keeps appearing every connection — disconnect, restart the PC app, and reconnect</li>
+                <li>The pairing saves after one successful scan — future connections skip QR automatically</li>
             </ul>
 
             <h3>No audio in headset</h3>
