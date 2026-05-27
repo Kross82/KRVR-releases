@@ -1,8 +1,8 @@
 # KRVR — Native PCVR Streaming for Apple Vision Pro
 
-> **ALPHA BUILD — This is an early testing release, not a finished product.** Expect bugs, rough edges, and things that need tuning. We need your feedback to make it great. Please report issues and share your experience on our [Discord](#community).
-
 KRVR streams your PC VR games wirelessly to Apple Vision Pro with NVIDIA CloudXR foveated encoding. Low latency, high quality, native visionOS experience.
+
+**Now live on the App Store.** Pair the visionOS app with the Windows desktop installer below to get streaming.
 
 ## Features
 
@@ -26,7 +26,7 @@ KRVR streams your PC VR games wirelessly to Apple Vision Pro with NVIDIA CloudXR
 ### Headset
 - Apple Vision Pro
 - visionOS 26.4 or later
-- TestFlight app installed
+- KRVR app installed (from the App Store or TestFlight)
 
 ## Download
 
@@ -36,12 +36,12 @@ Download **KRVR-Setup.exe** from the [latest release](https://github.com/Kross82
 Run the installer — it handles everything: CloudXR runtime, firewall rules, OpenXR configuration.
 
 ### Vision Pro App
-Install via TestFlight: **[Join the KRVR Beta](https://testflight.apple.com/join/gNNdfEzx)**
+Install from the **[App Store](<TODO_APP_STORE_URL>)** (recommended), or join the beta via **[TestFlight](https://testflight.apple.com/join/gNNdfEzx)** to get earlier builds with new features as they ship.
 
 ## Quick Start
 
 1. **Install** KRVR on your Windows PC (run the installer)
-2. **Install** KRVR on your Vision Pro (via TestFlight)
+2. **Install** KRVR on your Vision Pro (from the App Store)
 3. **Launch** KRVR on your PC — click **Start**
 4. **Open** KRVR on your Vision Pro — tap **Connect**
 5. **Scan** the QR code displayed on your PC
@@ -69,7 +69,7 @@ Join the KRVR Discord: **[discord.gg/7RxKBNTbdh](https://discord.gg/7RxKBNTbdh)*
 
 ## Help Us Improve
 
-This is an alpha release — your feedback is critical. We need help dialling in resolution, quality, and compatibility across different setups. Please share:
+Your feedback drives the roadmap. We need help dialling in resolution, quality, and compatibility across different hardware setups. Please share:
 
 - Your GPU model and driver version
 - Games you've tested (working or not)
