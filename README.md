@@ -30,10 +30,12 @@ KRVR streams your PC VR games wirelessly to Apple Vision Pro with NVIDIA CloudXR
 
 ## Download
 
-### Windows Desktop App
-Download **KRVR-Setup.exe** from the [latest release](https://github.com/Kross82/KRVR-releases/releases/latest).
+> ⚠️ **Don't use the green "Code → Download ZIP" button.** That only downloads this README. The Windows installer is below ↓
 
-Run the installer — it handles everything: CloudXR runtime, firewall rules, OpenXR configuration.
+### Windows Desktop App
+Download **KRVR-Setup-v1.3.6.exe** from the [latest release](https://github.com/Kross82/KRVR-releases/releases/latest) (under the **Assets** section).
+
+Run the installer — it handles everything: CloudXR runtime, firewall rules, OpenXR configuration, SteamVR driver registration.
 
 ### Vision Pro App
 Install from the **[App Store](https://apps.apple.com/us/app/krvr/id6761065018)** (recommended), or join the beta via **[TestFlight](https://testflight.apple.com/join/gNNdfEzx)** to get earlier builds with new features as they ship.
@@ -50,14 +52,22 @@ Install from the **[App Store](https://apps.apple.com/us/app/krvr/id6761065018)*
 
 ## Supported Games
 
-Any OpenXR game works natively. SteamVR/OpenVR games work with [OpenComposite](https://gitlab.com/znixian/OpenOVR).
+Any OpenXR game works natively. SteamVR/OpenVR games work natively too — KRVR ships with a built-in SteamVR driver based on [mbucchia's OpenVR-CloudXR](https://github.com/mbucchia/OpenVR-CloudXR). No OpenComposite, no manual setup.
 
 ### Tested
+**OpenXR-direct**
 - iRacing
 - Microsoft Flight Simulator 2024
-- Le Mans Ultimate (with OpenComposite)
+- Le Mans Ultimate
 - Kayak VR: Mirage
 - Assetto Corsa EVO
+
+**SteamVR / OpenVR**
+- Half-Life: Alyx
+- Skyrim VR
+- Assetto Corsa
+- Pavlov VR
+- Boneworks
 
 ## Network Tips
 
@@ -85,10 +95,10 @@ Post feedback in **#bug-reports** or **#feature-requests** on Discord.
 A: No. KRVR requires NVIDIA RTX 40 series or newer for CloudXR hardware encoding.
 
 **Q: Can I use SteamVR games?**
-A: Yes, with OpenComposite. Replace `openvr_api.dll` in the game folder with the OpenComposite version.
+A: Yes. KRVR v1.3.6 ships with a built-in SteamVR driver based on mbucchia's OpenVR-CloudXR. Just launch SteamVR games from Steam — no OpenComposite, no DLL swaps.
 
 **Q: What resolution does it stream at?**
-A: Configurable. Default is 5200 render / 2080 stream with foveated encoding. Adjust in the KRVR desktop app.
+A: Configurable. Defaults are 4400 render / 2400 stream with foveated encoding. Adjust in the KRVR desktop app.
 
 **Q: Does it work over the internet?**
 A: KRVR is designed for local network streaming. Internet streaming is not supported.
