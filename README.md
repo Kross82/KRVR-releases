@@ -36,7 +36,7 @@ Download **KRVR-Setup.exe** from the [latest release](https://github.com/Kross82
 Run the installer — it handles everything: CloudXR runtime, firewall rules, OpenXR configuration.
 
 ### Vision Pro App
-Install from the **[App Store](<TODO_APP_STORE_URL>)** (recommended), or join the beta via **[TestFlight](https://testflight.apple.com/join/gNNdfEzx)** to get earlier builds with new features as they ship.
+Install from the **[App Store](https://apps.apple.com/us/app/krvr/id6761065018)** (recommended), or join the beta via **[TestFlight](https://testflight.apple.com/join/gNNdfEzx)** to get earlier builds with new features as they ship.
 
 ## Quick Start
 
