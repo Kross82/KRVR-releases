@@ -65,7 +65,7 @@ For best quality, use a dedicated 5GHz WiFi network between your PC and Vision P
 
 ## Community
 
-Join the KRVR Discord: **[discord.gg/9KMnq8ZH](https://discord.gg/9KMnq8ZH)**
+Join the KRVR Discord: **[discord.gg/zsYw3SJkHD](https://discord.gg/zsYw3SJkHD)**
 
 ## Help Us Improve
 
