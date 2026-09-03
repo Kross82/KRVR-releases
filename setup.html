@@ -388,7 +388,7 @@
                 <li><strong>Resolution</strong> — the render size the game is asked for</li>
                 <li><strong>Fovea density</strong> — pixel density in the fovea relative to the periphery</li>
                 <li><strong>FoV scale</strong> — trims the rendered field of view to save GPU time</li>
-                <li><strong>Stream rate</strong> — the target frame rate, normally 90</li>
+                <li><strong>Stream rate</strong> — the target frame rate</li>
                 <li><strong>IPD</strong> — your eye separation in millimetres</li>
                 <li><strong>Encoder preset</strong> and <strong>10-bit encode</strong> — quality versus encoder speed</li>
             </ul>
@@ -400,10 +400,10 @@
             <h2>Motion Smoothing</h2>
             <p>Found under <strong>Performance</strong> in the pill.</p>
             <ul>
-                <li><strong>On</strong> locks a game that cannot hold 90 to the steady rate it can hold (45, 30 or 22.5), so every frame lands on an even step. The stable choice for demanding games</li>
-                <li><strong>Off</strong> lets the game run free: every frame it makes ships at once, for the lowest latency, but frame timing is uneven when it drops below 90</li>
+                <li><strong>On</strong> locks a game that cannot keep up with the display to the steady rate it can hold, so every frame lands on an even step. The stable choice for demanding games</li>
+                <li><strong>Off</strong> lets the game run free: every frame it makes ships at once, for the lowest latency, but frame timing is uneven when the game falls behind</li>
             </ul>
-            <p>A game holding 90 is untouched either way. The switch applies live, mid-game.</p>
+            <p>A game that keeps up is untouched either way. The switch applies live, mid-game.</p>
         </div>
 
         <!-- Mixed reality -->
@@ -453,7 +453,7 @@
             <ul>
                 <li>Raise <strong>Bitrate</strong> in Quality, then <strong>Fovea size</strong></li>
                 <li>Make sure the headset is on <strong>5 GHz</strong>, not 2.4 GHz, and the PC is on ethernet</li>
-                <li>Turn <strong>Motion Smoothing</strong> on for a game that cannot hold 90</li>
+                <li>Turn <strong>Motion Smoothing</strong> on for a game that cannot keep up</li>
             </ul>
 
             <h3>No sound in the headset</h3>

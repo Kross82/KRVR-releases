@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KRVR — PC VR streaming for Apple Vision Pro</title>
-    <meta name="description" content="Play your PC VR games on Apple Vision Pro. Eye-tracked foveated streaming, built for 90 Hz, native OpenXR runtime plus SteamVR driver. Free Windows server.">
+    <meta name="description" content="Play your PC VR games on Apple Vision Pro. Eye-tracked foveated streaming, native OpenXR runtime plus SteamVR driver. Free Windows server.">
     <link rel="icon" href="assets/krvr_icon.png" type="image/png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -404,28 +404,6 @@
             color: rgba(255, 255, 255, 0.3);
         }
 
-        /* Gallery */
-        .gallery { padding: 20px 0 60px; }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-        @media (max-width: 640px) { .gallery-grid { grid-template-columns: 1fr; } }
-        .step-card img { width: 100%; height: auto; border-radius: 12px; margin-top: 16px; border: 1px solid var(--glass-border); }
-        .gallery-grid img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 18px;
-            border: 1px solid var(--glass-border);
-        }
-        .gallery-grid figcaption {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 8px;
-            text-align: center;
-        }
 
         /* How it works */
         .steps { padding: 60px 0; }
@@ -473,7 +451,7 @@
     <div class="container">
         <img src="assets/krvr-logo.png" alt="KRVR" class="hero-logo">
         <h1>Your PC VR library on Apple Vision Pro</h1>
-        <p>KRVR streams your PC VR games to Vision Pro over your home network. Eye-tracked foveated streaming, built for 90 Hz, with head tracking that stays put.</p>
+        <p>KRVR streams your PC VR games to Vision Pro over your home network. Eye-tracked foveated streaming, steady frame delivery, and head tracking that stays put.</p>
         <div class="hero-buttons">
             <a href="https://apps.apple.com/us/app/krvr/id6761065018" class="btn btn-primary" target="_blank">App Store</a>
             <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for PC</a>
@@ -482,20 +460,9 @@
     </div>
 </section>
 
-<section class="gallery">
-    <div class="container">
-        <div class="gallery-grid">
-            <figure><img src="assets/shot-cockpit.jpg" alt="Hands tracked in a native OpenXR game streamed to Vision Pro"><figcaption>Hands tracked in a native OpenXR game</figcaption></figure>
-            <figure><img src="assets/shot-pill.jpg" alt="The KRVR settings pill and a mixed reality window over a cockpit"><figcaption>Settings pill and a mixed reality window</figcaption></figure>
-            <figure><img src="assets/shot-courtyard.jpg" alt="A room-scale scene streamed to Vision Pro"><figcaption>Room-scale, seated or cockpit</figcaption></figure>
-            <figure><img src="assets/shot-wall.jpg" alt="A SteamVR scene streamed through the KRVR driver"><figcaption>SteamVR games through the KRVR driver</figcaption></figure>
-        </div>
-    </div>
-</section>
-
 <section class="stats">
     <div class="stat">
-        <div class="stat-value">90 Hz</div>
+        <div class="stat-value">Steady</div>
         <div class="stat-label">Frame-paced delivery</div>
     </div>
     <div class="stat">
@@ -517,7 +484,6 @@
                 <div class="step-num">STEP 1</div>
                 <h3>Install the server</h3>
                 <p>Run the free KRVR installer on your Windows PC. It registers the OpenXR runtime, the SteamVR driver and the firewall rules for you.</p>
-                <img src="assets/shot-launcher.jpg" alt="The KRVR server window on Windows">
             </div>
             <div class="step-card glass">
                 <div class="step-num">STEP 2</div>
@@ -544,8 +510,8 @@
             </div>
             <div class="feature-card glass">
                 <div class="feature-icon">&#9889;</div>
-                <h3>Built for 90 Hz</h3>
-                <p>Frame pacing keeps delivery locked to the display. Motion Smoothing gives games that cannot hold 90 an even, steady rate instead of a ragged one, and lets games that can run free.</p>
+                <h3>Steady frame delivery</h3>
+                <p>Frame pacing keeps delivery locked to the display. Motion Smoothing gives a game that cannot keep up an even, steady rate instead of a ragged one, and lets a game that can keep up run free.</p>
             </div>
             <div class="feature-card glass">
                 <div class="feature-icon">&#127919;</div>
