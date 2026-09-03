@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRVR — Native PCVR Streaming for Apple Vision Pro</title>
-    <meta name="description" content="Stream your PC VR games wirelessly to Apple Vision Pro. Eye-tracked foveated streaming, 90fps, native resolution. iRacing, MSFS, Le Mans Ultimate and more.">
+    <title>KRVR — PC VR streaming for Apple Vision Pro</title>
+    <meta name="description" content="Play your PC VR games on Apple Vision Pro. Eye-tracked foveated streaming, built for 90 Hz, native OpenXR runtime plus SteamVR driver. Free Windows server.">
     <link rel="icon" href="assets/krvr_icon.png" type="image/png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -404,6 +404,39 @@
             color: rgba(255, 255, 255, 0.3);
         }
 
+        /* Gallery */
+        .gallery { padding: 20px 0 60px; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 640px) { .gallery-grid { grid-template-columns: 1fr; } }
+        .step-card img { width: 100%; height: auto; border-radius: 12px; margin-top: 16px; border: 1px solid var(--glass-border); }
+        .gallery-grid img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 18px;
+            border: 1px solid var(--glass-border);
+        }
+        .gallery-grid figcaption {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* How it works */
+        .steps { padding: 60px 0; }
+        .steps h2 { text-align: center; font-size: 32px; margin-bottom: 12px; }
+        .steps-subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 40px; font-size: 16px; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .step-card { padding: 28px; }
+        .step-num { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--accent); margin-bottom: 10px; }
+        .step-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .step-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
         /* Mobile */
         @media (max-width: 1100px) {
             .videos-grid { grid-template-columns: 1fr !important; max-width: 640px !important; }
@@ -426,8 +459,9 @@
     <div class="container">
         <a href="index.html" class="nav-logo" style="text-decoration:none;">KRVR</a>
         <div class="nav-links">
+            <a href="#how">How it works</a>
             <a href="#features">Features</a>
-            <a href="#games">Games</a>
+            <a href="#requirements">Requirements</a>
             <a href="setup.html">Setup Guide</a>
             <a href="https://discord.gg/zsYw3SJkHD" target="_blank" style="display:flex;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"><svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A37.5 37.5 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.6 4.9a.2.2 0 00-.1.1C1.5 18.7-.9 32.2.3 45.5v.1a58.8 58.8 0 0017.7 9 .2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.8 38.8 0 01-5.5-2.6.2.2 0 01 0-.4c.4-.3.7-.6 1.1-.8a.2.2 0 01.2 0c11.6 5.3 24.2 5.3 35.7 0a.2.2 0 01.3 0l1 .9a.2.2 0 010 .3 36.4 36.4 0 01-5.5 2.6.2.2 0 00-.1.4 47.2 47.2 0 003.7 5.8.2.2 0 00.2.1 58.6 58.6 0 0017.7-9v-.1c1.4-15-2.3-28.4-9.8-40.1a.2.2 0 00-.1-.1zM23.7 37.3c-3.5 0-6.3-3.2-6.3-7s2.8-7 6.3-7 6.4 3.2 6.3 7-2.8 7-6.3 7zm23.3 0c-3.5 0-6.3-3.2-6.3-7s2.8-7 6.3-7 6.4 3.2 6.3 7-2.8 7-6.3 7z" fill="#5865F2"/></svg></a>
             <a href="https://x.com/KRVR_AVP" target="_blank" style="display:flex;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
@@ -438,8 +472,8 @@
 <section class="hero">
     <div class="container">
         <img src="assets/krvr-logo.png" alt="KRVR" class="hero-logo">
-        <h1>PCVR on Apple Vision Pro</h1>
-        <p>Stream your PC VR games wirelessly to Vision Pro. Eye-tracked foveated streaming, native resolution, 90fps.</p>
+        <h1>Your PC VR library on Apple Vision Pro</h1>
+        <p>KRVR streams your PC VR games to Vision Pro over your home network. Eye-tracked foveated streaming, built for 90 Hz, with head tracking that stays put.</p>
         <div class="hero-buttons">
             <a href="https://apps.apple.com/us/app/krvr/id6761065018" class="btn btn-primary" target="_blank">App Store</a>
             <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for PC</a>
@@ -448,9 +482,181 @@
     </div>
 </section>
 
-<section style="padding: 80px 0; text-align: center;">
+<section class="gallery">
     <div class="container">
-        <h2 style="font-size: 32px; margin-bottom: 32px;">See KRVR in Action</h2>
+        <div class="gallery-grid">
+            <figure><img src="assets/shot-cockpit.jpg" alt="Hands tracked in a native OpenXR game streamed to Vision Pro"><figcaption>Hands tracked in a native OpenXR game</figcaption></figure>
+            <figure><img src="assets/shot-pill.jpg" alt="The KRVR settings pill and a mixed reality window over a cockpit"><figcaption>Settings pill and a mixed reality window</figcaption></figure>
+            <figure><img src="assets/shot-courtyard.jpg" alt="A room-scale scene streamed to Vision Pro"><figcaption>Room-scale, seated or cockpit</figcaption></figure>
+            <figure><img src="assets/shot-wall.jpg" alt="A SteamVR scene streamed through the KRVR driver"><figcaption>SteamVR games through the KRVR driver</figcaption></figure>
+        </div>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="stat">
+        <div class="stat-value">90 Hz</div>
+        <div class="stat-label">Frame-paced delivery</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">Eye-tracked</div>
+        <div class="stat-label">Foveated streaming</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">OpenXR + SteamVR</div>
+        <div class="stat-label">Both paths, one app</div>
+    </div>
+</section>
+
+<section class="steps" id="how">
+    <div class="container">
+        <h2>How it works</h2>
+        <p class="steps-subtitle">Native OpenXR games run through KRVR's own OpenXR runtime on the PC, with no SteamVR in the chain. Everything else runs through SteamVR with the KRVR driver. The headset side is the same either way.</p>
+        <div class="steps-grid">
+            <div class="step-card glass">
+                <div class="step-num">STEP 1</div>
+                <h3>Install the server</h3>
+                <p>Run the free KRVR installer on your Windows PC. It registers the OpenXR runtime, the SteamVR driver and the firewall rules for you.</p>
+                <img src="assets/shot-launcher.jpg" alt="The KRVR server window on Windows">
+            </div>
+            <div class="step-card glass">
+                <div class="step-num">STEP 2</div>
+                <h3>Press Connect</h3>
+                <p>Start the server on the PC, open KRVR on Vision Pro and tap Connect. The headset finds your PC on the local network by itself.</p>
+            </div>
+            <div class="step-card glass">
+                <div class="step-num">STEP 3</div>
+                <h3>Launch your game</h3>
+                <p>Start any VR game on the PC. It appears in the headset at full resolution where you are looking, with sound, microphone and controllers along for the ride.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features" id="features">
+    <div class="container">
+        <h2>Features</h2>
+        <div class="features-grid">
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128065;</div>
+                <h3>Eye-tracked foveated streaming</h3>
+                <p>The full-detail region follows your gaze, so the bandwidth goes where you are looking and the picture stays sharp where it matters. Built on Apple's Foveated Streaming framework; gaze data never leaves the headset.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#9889;</div>
+                <h3>Built for 90 Hz</h3>
+                <p>Frame pacing keeps delivery locked to the display. Motion Smoothing gives games that cannot hold 90 an even, steady rate instead of a ragged one, and lets games that can run free.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#127919;</div>
+                <h3>Head tracking that stays put</h3>
+                <p>Pose prediction runs on the headset, so the world holds still when you move your head instead of swimming behind it.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128247;</div>
+                <h3>Mixed reality windows</h3>
+                <p>Cut a passthrough window into the game to see your wheel, rig, keyboard or controllers. A short wizard places it, and it stays anchored in the room between sessions.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#127899;</div>
+                <h3>Live tuning</h3>
+                <p>Bitrate, fovea size, periphery compression and sharpening change while you play, with the resulting stream size shown as you adjust. No restarts.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128075;</div>
+                <h3>Hand tracking</h3>
+                <p>Your hands show up in games that support hand presence, tracked by Vision Pro and delivered to the PC as standard OpenXR and SteamVR hand input.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128266;</div>
+                <h3>Audio and microphone</h3>
+                <p>Game audio to the headset or to your PC speakers, your choice. Your voice goes the other way for in-game chat.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128377;</div>
+                <h3>Controller support</h3>
+                <p>Use supported VR controllers with your PC games, with full tracking, input and haptics through the KRVR driver.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#128421;</div>
+                <h3>Desktop mirror</h3>
+                <p>See your PC screen inside the headset when you need it, for launchers, settings and the odd dialog box, without taking the headset off.</p>
+            </div>
+            <div class="feature-card glass">
+                <div class="feature-icon">&#9881;</div>
+                <h3>A pill you control</h3>
+                <p>Quick settings live in a small pill you can move, hide or customise. Adjustable FOV crop, immersion level and masks are a tap away.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="requirements" id="requirements">
+    <div class="container">
+        <h2>Requirements</h2>
+        <div class="req-grid">
+            <div class="req-card glass">
+                <h3>Windows PC</h3>
+                <ul>
+                    <li>Windows 11</li>
+                    <li>NVIDIA GPU (NVENC is used for encoding)</li>
+                    <li>Latest NVIDIA drivers</li>
+                    <li>Wired ethernet to your router</li>
+                    <li>SteamVR installed for SteamVR games</li>
+                </ul>
+            </div>
+            <div class="req-card glass">
+                <h3>Apple Vision Pro</h3>
+                <ul>
+                    <li>KRVR from the App Store</li>
+                    <li>Same local network as the PC</li>
+                    <li>5 GHz Wi-Fi, Wi-Fi 6 recommended</li>
+                </ul>
+            </div>
+            <div class="req-card glass">
+                <h3>Good to have</h3>
+                <ul>
+                    <li>A dedicated Wi-Fi 6 access point near where you play</li>
+                    <li>A virtual audio cable for microphone to PC</li>
+                    <li>Supported VR controllers for games that need them</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="padding: 40px 0;">
+    <div class="container">
+        <div class="glass" style="padding: 28px 32px; max-width: 800px; margin: 0 auto;">
+            <h3 style="font-size: 16px; margin-bottom: 12px; color: var(--accent);">Quick fixes</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+                <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">Headset cannot find the PC</strong> — Both must be on the same network. Check the PC app is started, pick the right network adapter in its IP list, and allow KRVR through Windows Firewall.</li>
+                <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">Game opens on the monitor</strong> — Connect before launching. For OpenXR games set the display mode to OpenXR in the game's settings. SteamVR games open SteamVR, which now shows KRVR as the headset.</li>
+                <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">Installer says files are still the old version</strong> — SteamVR or a game was holding them. Close them, run the installer again.</li>
+            </ul>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 16px;">More in the <a href="setup.html" style="color: var(--accent); text-decoration: none;">Setup Guide</a>.</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <div class="cta-card glass">
+            <h2>Ready to play?</h2>
+            <p>Get KRVR on the App Store and the free KRVR server for your PC, and your VR library follows you into Vision Pro.</p>
+            <div class="hero-buttons">
+                <a href="https://apps.apple.com/us/app/krvr/id6761065018" class="btn btn-primary" target="_blank">App Store</a>
+                <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for PC</a>
+            </div>
+            <p class="email-note">Questions or feedback? <a href="https://discord.gg/zsYw3SJkHD" target="_blank">Join Discord</a></p>
+        </div>
+    </div>
+</section>
+
+<section style="padding: 60px 0; text-align: center;">
+    <div class="container">
+        <h2 style="font-size: 28px; margin-bottom: 8px;">From the community</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 32px; font-size: 15px;">Independent reviews of earlier KRVR releases.</p>
         <div class="videos-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1240px; margin: 0 auto;">
             <div class="glass" style="padding: 24px;">
                 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px;">
@@ -481,164 +687,11 @@
         </div>
     </div>
 </section>
-<section class="stats">
-    <div class="stat">
-        <div class="stat-value">Eye-Tracked</div>
-        <div class="stat-label">Foveation</div>
-    </div>
-    <div class="stat">
-        <div class="stat-value">H.265</div>
-        <div class="stat-label">Encoding</div>
-    </div>
-    <div class="stat">
-        <div class="stat-value">WiFi 6</div>
-        <div class="stat-label">Ready</div>
-    </div>
-</section>
-
-<section class="features" id="features">
-    <div class="container">
-        <h2>Features</h2>
-        <div class="features-grid">
-            <div class="feature-card glass">
-                <div class="feature-icon">&#9889;</div>
-                <h3>CloudXR Streaming <span class="badge badge-live">Live</span></h3>
-                <p>Powered by NVIDIA CloudXR with Apple FoveatedStreaming. Eye-tracked foveated streaming renders full resolution where you look, reduced detail in the periphery. Works with any OpenXR game.</p>
-            </div>
-            <div class="feature-card glass">
-                <div class="feature-icon" style="line-height:0;">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="#ffffff" style="display:inline-block;vertical-align:top;">
-                        <path d="M12 0C5.6 0 .3 4.7 0 10.6l6.7 2.8c.6-.4 1.2-.6 2-.6h.2l3-4.4v-.1c0-2.6 2.1-4.7 4.7-4.7s4.7 2.1 4.7 4.7-2.1 4.7-4.7 4.7h-.1l-4.3 3.1v.2c0 1.9-1.6 3.5-3.5 3.5-1.7 0-3.1-1.2-3.4-2.8L.8 15.9c1.4 5 5.9 8.7 11.2 8.7 6.6 0 12-5.4 12-12s-5.4-12-12-12zM7.5 18.2l-1.6-.7c.3.5.7 1 1.3 1.3 1.3.5 2.8-.1 3.4-1.4.3-.6.3-1.3 0-1.9-.3-.6-.7-1.1-1.4-1.3-.6-.3-1.3-.3-1.9 0l1.6.6c.9.4 1.4 1.5 1 2.4-.4 1-1.5 1.4-2.4 1zm14.3-9.7c0-1.7-1.4-3.1-3.1-3.1s-3.2 1.4-3.2 3.1c0 1.7 1.4 3.1 3.1 3.1 1.8.1 3.2-1.3 3.2-3.1zm-5.5 0c0-1.3 1.1-2.4 2.4-2.4 1.3 0 2.4 1.1 2.4 2.4 0 1.3-1.1 2.4-2.4 2.4-1.3 0-2.4-1.1-2.4-2.4z"/>
-                    </svg>
-                </div>
-                <h3>SteamVR Support <span class="badge badge-live">Live</span></h3>
-                <p>Hundreds of SteamVR and OpenVR titles work natively — Half-Life: Alyx, the original Assetto Corsa, Skyrim VR, Pavlov VR, and many more. Ships with a built-in SteamVR driver. No OpenComposite, no manual setup.</p>
-            </div>
-            <div class="feature-card glass">
-                <div class="feature-icon">&#128065;</div>
-                <h3>Foveated Streaming</h3>
-                <p>Eye-tracked foveated rendering powered by Apple FoveatedStreaming and CloudXR. Full detail where you look, reduced periphery. Same total bandwidth, dramatically better perceived quality.</p>
-            </div>
-            <div class="feature-card glass">
-                <div class="feature-icon">&#128247;</div>
-                <h3>Cockpit Passthrough</h3>
-                <p>Draw passthrough windows around your steering wheel, HOTAS, or cockpit hardware. Multiple masks, world-anchored positions, motion compensation for sim rigs. Edit handles to fine-tune shape between sessions.</p>
-            </div>
-            <div class="feature-card glass">
-                <div class="feature-icon">&#128377;</div>
-                <h3>PSVR2 Sense Controllers</h3>
-                <p>Full 6DOF tracking and input with PlayStation VR2 Sense controllers. Trigger, grip, joystick, buttons, and haptic feedback. Velocity tracking for throwing and physics interactions.</p>
-            </div>
-            <div class="feature-card glass">
-                <div class="feature-icon">&#127918;</div>
-                <h3>In-Headset Game Launcher</h3>
-                <p>Browse and launch your VR games without taking off the headset. Built-in game library scans Steam, Epic, and GOG. Desktop viewer lets you see and manage your PC screen in VR.</p>
-            </div>
-            <div class="feature-card glass">
-                <div class="feature-icon">&#128421;</div>
-                <h3>Desktop Interaction</h3>
-                <p>Mirror your PC desktop in VR and click to interact. Multi-monitor support — view additional displays alongside your game. Full resolution capture. Tap to click on your PC without leaving VR.</p>
-            </div>
-            <div class="feature-card glass">
-                <div class="feature-icon">&#128075;</div>
-                <h3>Wrist Gesture Controls</h3>
-                <p>Tap your wrist to control KRVR without controllers. Two-finger tap left wrist for the menu, four-finger tap for desktop. Two-finger tap right wrist to toggle masks, four-finger for immersion mode.</p>
-            </div>
-            <div class="feature-card glass">
-                <div class="feature-icon">&#9881;</div>
-                <h3>Customisable UI</h3>
-                <p>Choose which buttons appear in your quick-access pill bar. Toggle games, desktop, masks, lock, immersion, hands, and input on or off. Settings auto-apply — no restart needed.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="games" id="games">
-    <div class="container">
-        <h2>Tested Games</h2>
-        <p class="games-subtitle">Both OpenXR and SteamVR titles supported natively. Hundreds of games work out of the box.</p>
-        <div class="games-list">
-            <div class="game-tag glass">iRacing</div>
-            <div class="game-tag glass">MSFS 2024</div>
-            <div class="game-tag glass">VRChat</div>
-            <div class="game-tag glass">Le Mans Ultimate</div>
-            <div class="game-tag glass">Assetto Corsa EVO</div>
-            <div class="game-tag glass">Kayak VR: Mirage</div>
-            <div class="game-tag glass">AirCar</div>
-            <div class="game-tag glass">Half-Life: Alyx</div>
-            <div class="game-tag glass">DCS World</div>
-            <div class="game-tag glass">Star Citizen</div>
-            <div class="game-tag glass">Forefront</div>
-        </div>
-    </div>
-</section>
-
-<section class="requirements" id="requirements">
-    <div class="container">
-        <h2>Requirements</h2>
-        <div class="req-grid">
-            <div class="req-card glass">
-                <h3>Windows PC</h3>
-                <ul>
-                    <li>NVIDIA GeForce RTX 40 series or newer</li>
-                    <li>Windows 10 or Windows 11</li>
-                    <li>Latest NVIDIA drivers</li>
-                    <li>5GHz WiFi, 50Mbps+ sustained</li>
-                </ul>
-            </div>
-            <div class="req-card glass">
-                <h3>Apple Vision Pro</h3>
-                <ul>
-                    <li>visionOS 26.4 or later</li>
-                    <li>Available on the App Store</li>
-                    <li>Same local network as PC</li>
-                    <li>WiFi 6 recommended</li>
-                </ul>
-            </div>
-            <div class="req-card glass">
-                <h3>Optional</h3>
-                <ul>
-                    <li>PSVR2 Sense controllers</li>
-                    <li>Dedicated WiFi 6 access point</li>
-                    <li>PC wired to router via Ethernet</li>
-                    <li>OpenComposite for OpenVR games</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section style="padding: 40px 0;">
-    <div class="container">
-        <div class="glass" style="padding: 28px 32px; max-width: 800px; margin: 0 auto;">
-            <h3 style="font-size: 16px; margin-bottom: 12px; color: var(--accent);">Troubleshooting</h3>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
-                <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">Sunshine / Moonlight conflict</strong> — Close Sunshine before running KRVR. Both use overlapping UDP ports (47998-48012). Sunshine must be fully stopped or KRVR won't connect.</li>
-                <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">First connection fails</strong> — Make sure KRVR is allowed through Windows Firewall. The installer sets rules automatically but some antivirus software can block it. Try disabling your firewall briefly to test.</li>
-                <li style="font-size: 14px; color: var(--text-secondary); padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);"></span><strong style="color: var(--text-primary);">Black screen after connecting</strong> — Make sure you launch the game after the session is connected (green status). Some games need OpenComposite to work with CloudXR.</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<section class="cta">
-    <div class="container">
-        <div class="cta-card glass">
-            <h2>Ready to Play?</h2>
-            <p>KRVR is available now. Download on the App Store and grab the PC companion app to get started.</p>
-            <div class="hero-buttons">
-                <a href="https://apps.apple.com/us/app/krvr/id6761065018" class="btn btn-primary" target="_blank">App Store</a>
-                <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for PC</a>
-            </div>
-            <p class="email-note">Questions or feedback? <a href="https://discord.gg/zsYw3SJkHD" target="_blank">Join Discord</a></p>
-        </div>
-    </div>
-</section>
 
 <section class="support" style="padding: 60px 0; text-align: center;">
     <div class="container">
-        <h2 style="font-size: 24px; margin-bottom: 12px;">Support the Project</h2>
-        <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 15px;">KRVR is free and built by one developer. If you find it useful, consider buying me a coffee.</p>
+        <h2 style="font-size: 24px; margin-bottom: 12px;">Support the project</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 15px;">KRVR is built by one developer. If it earns a place in your rig, consider buying a coffee.</p>
         <a href="https://www.buymeacoffee.com/KRVR" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 16px; font-size: 15px; font-weight: 600; text-decoration: none; background: #FFDD00; color: #000; border: none; transition: all 0.3s;">&#9749; Buy Me a Coffee</a>
     </div>
 </section>
@@ -654,9 +707,8 @@
             <a href="https://github.com/Kross82/KRVR-releases/issues" target="_blank">Report Issue</a>
             <a href="privacy.html">Privacy Policy</a>
         </div>
-        <p class="footer-copy">KRVR uses NVIDIA CloudXR technology. NVIDIA and CloudXR are trademarks of NVIDIA Corporation.</p>
-    </div>
         <p class="footer-copy">KRVR is a product of KRXR LTD, registered in England &amp; Wales, company no. 17367119. Registered office: 71-75 Shelton Street, Covent Garden, London WC2H 9JQ, United Kingdom. Contact: karl@krvr.app</p>
+    </div>
 </footer>
 
 </body>

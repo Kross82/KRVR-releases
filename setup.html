@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KRVR — Setup Guide</title>
-    <meta name="description" content="Step-by-step guide to set up KRVR for PC VR streaming to Apple Vision Pro.">
+    <meta name="description" content="Set up KRVR: install the free Windows server, connect from Apple Vision Pro, launch any PC VR game. Tuning, mixed reality windows, audio and troubleshooting.">
     <link rel="icon" href="assets/krvr_icon.png" type="image/png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -271,7 +271,7 @@
         <a href="index.html" class="nav-logo" style="text-decoration:none;">KRVR</a>
         <div class="nav-links">
             <a href="index.html#features">Features</a>
-            <a href="index.html#games">Games</a>
+            <a href="index.html#how">How it works</a>
             <a href="setup.html">Setup</a>
             <a href="https://discord.gg/zsYw3SJkHD" target="_blank" style="display:flex;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"><svg width="20" height="15" viewBox="0 0 71 55" fill="none"><path d="M60.1 4.9A58.5 58.5 0 0045.4.2a.2.2 0 00-.2.1 40.8 40.8 0 00-1.8 3.7 54 54 0 00-16.2 0A37.5 37.5 0 0025.4.3a.2.2 0 00-.2-.1A58.4 58.4 0 0010.6 4.9a.2.2 0 00-.1.1C1.5 18.7-.9 32.2.3 45.5v.1a58.8 58.8 0 0017.7 9 .2.2 0 00.3-.1 42 42 0 003.6-5.9.2.2 0 00-.1-.3 38.8 38.8 0 01-5.5-2.6.2.2 0 01 0-.4c.4-.3.7-.6 1.1-.8a.2.2 0 01.2 0c11.6 5.3 24.2 5.3 35.7 0a.2.2 0 01.3 0l1 .9a.2.2 0 010 .3 36.4 36.4 0 01-5.5 2.6.2.2 0 00-.1.4 47.2 47.2 0 003.7 5.8.2.2 0 00.2.1 58.6 58.6 0 0017.7-9v-.1c1.4-15-2.3-28.4-9.8-40.1a.2.2 0 00-.1-.1zM23.7 37.3c-3.5 0-6.3-3.2-6.3-7s2.8-7 6.3-7 6.4 3.2 6.3 7-2.8 7-6.3 7zm23.3 0c-3.5 0-6.3-3.2-6.3-7s2.8-7 6.3-7 6.4 3.2 6.3 7-2.8 7-6.3 7z" fill="#5865F2"/></svg></a>
             <a href="https://x.com/KRVR_AVP" target="_blank" style="display:flex;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
@@ -282,7 +282,7 @@
 <section class="page-header">
     <div class="container">
         <h1>Setup Guide</h1>
-        <p>Get PCVR streaming working on your Apple Vision Pro in under 5 minutes.</p>
+        <p>From download to your first game in a few minutes.</p>
     </div>
 </section>
 
@@ -296,41 +296,50 @@
                 <div class="req-box">
                     <h4>Windows PC</h4>
                     <ul>
-                        <li>NVIDIA RTX 40 series or newer GPU</li>
-                        <li>Windows 10 or Windows 11</li>
+                        <li>Windows 11</li>
+                        <li>NVIDIA GPU (NVENC is used for encoding)</li>
                         <li>Latest NVIDIA drivers</li>
-                        <li>5GHz WiFi or Ethernet (PC wired recommended)</li>
+                        <li>Wired ethernet to your router</li>
+                        <li>SteamVR installed if you play SteamVR games</li>
                     </ul>
                 </div>
                 <div class="req-box">
                     <h4>Apple Vision Pro</h4>
                     <ul>
-                        <li>visionOS 26.4 or later</li>
+                        <li>KRVR from the App Store</li>
                         <li>Same local network as your PC</li>
-                        <li>WiFi 6 recommended</li>
+                        <li>5 GHz Wi-Fi, Wi-Fi 6 recommended</li>
                     </ul>
                 </div>
             </div>
-            <div class="warning">AMD, Intel, and RTX 30 series GPUs are not supported. CloudXR 6.0 requires an NVIDIA RTX 40 series or newer GPU.</div>
+            <div class="tip">Streaming quality is decided by your network. A wired PC and a 5 GHz access point in the same room as the headset make the biggest difference of anything on this page.</div>
+        </div>
+
+        <!-- Upgrading -->
+        <div class="guide-section glass">
+            <h2>Upgrading from KRVR 1.x</h2>
+            <p>KRVR 2.0 uses a new Windows server. Run the new installer over your existing install; it replaces the old server and there is nothing to uninstall first. Close SteamVR and any VR game before you run it, because Windows will not let the installer replace files they are holding.</p>
         </div>
 
         <!-- Step 1 -->
         <div class="guide-section glass">
-            <h2>Step 1 — Install the PC App</h2>
+            <h2>Step 1 — Install the server on your PC</h2>
             <ol>
-                <li>Download <strong>KRVR-Setup.exe</strong> from <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank" style="color: var(--accent);">krvr.app</a></li>
-                <li>Run the installer — it sets up firewall rules, the OpenXR runtime, and permissions automatically</li>
-                <li>KRVR appears on your desktop and Start menu</li>
+                <li>Close SteamVR and any VR game</li>
+                <li>Download <strong>KRVR-Setup.exe</strong> from the <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank" style="color: var(--accent);">Download for PC</a> button</li>
+                <li>Run it. The installer registers the KRVR OpenXR runtime, the SteamVR driver and the firewall rules for you</li>
+                <li>KRVR appears on your desktop and in the Start menu</li>
             </ol>
+            <div class="tip">The installer is signed by KRXR LTD. If the installer reports that files are still the old version, something was holding them open: close SteamVR and any game and run it again.</div>
         </div>
 
         <!-- Step 2 -->
         <div class="guide-section glass">
-            <h2>Step 2 — Install the Vision Pro App</h2>
+            <h2>Step 2 — Install the Vision Pro app</h2>
             <ol>
                 <li>Open the <a href="https://apps.apple.com/us/app/krvr/id6761065018" target="_blank" style="color: var(--accent);">App Store</a> on your Vision Pro and search for <strong>KRVR</strong></li>
-                <li>Tap <strong>Get</strong> to download</li>
-                <li>KRVR appears on your home screen</li>
+                <li>Tap <strong>Get</strong></li>
+                <li>KRVR appears on your home view</li>
             </ol>
         </div>
 
@@ -339,126 +348,123 @@
             <h2>Step 3 — Connect</h2>
             <ol>
                 <li>Open <strong>KRVR on your PC</strong></li>
-                <li>Check the runtime status shows <strong>"CloudXR is active"</strong> — if not, click "Set CloudXR"</li>
-                <li>Select your network adapter IP from the dropdown</li>
-                <li>Press <strong>Start</strong> — the status lights should go green for Bonjour</li>
-                <li>Open <strong>KRVR on your Vision Pro</strong></li>
-                <li>Tap <strong>Connect</strong> — select your PC from the list</li>
-                <li><strong>First time only:</strong> scan the QR code shown on your PC monitor to pair the devices</li>
-                <li>You're connected — the streaming session is active</li>
+                <li>If your PC has more than one network adapter, pick the one on the same network as your Vision Pro from the <strong>IP</strong> list</li>
+                <li>Press <strong>Start</strong></li>
+                <li>Open <strong>KRVR on your Vision Pro</strong>. It looks for your PC on the local network and shows it when found</li>
+                <li>Tap <strong>Connect</strong></li>
             </ol>
-            <div class="tip">The QR pairing is one-time only. Future connections skip it automatically.</div>
+            <div class="tip">No pairing codes, no QR. If the headset cannot see the PC, type the address shown in the PC app into the headset instead.</div>
         </div>
 
         <!-- Step 4 -->
         <div class="guide-section glass">
-            <h2>Step 4 — Launch a Game</h2>
+            <h2>Step 4 — Launch a game</h2>
             <ol>
-                <li>Make sure KRVR is <strong>connected before launching any game</strong></li>
-                <li>Launch your VR game from Steam, the desktop, or the KRVR games browser in the pill</li>
-                <li>The game should detect VR and appear in your headset</li>
+                <li>Connect first, then launch the game on the PC from Steam, its own launcher or the desktop</li>
+                <li>The game appears in your headset</li>
             </ol>
 
-            <h3>Native OpenXR Games</h3>
-            <p>Games like iRacing, MSFS, Kayak VR work out of the box — just launch normally. Make sure the game's display mode is set to <strong>OpenXR</strong> in its settings.</p>
+            <h3>OpenXR games</h3>
+            <p>These run through KRVR's own OpenXR runtime, with no SteamVR in the chain. If the game has a display or VR mode setting, set it to <strong>OpenXR</strong>.</p>
 
-            <h3>SteamVR / OpenVR Games</h3>
-            <p>Games like Assetto Corsa and AirCar need <strong>OpenComposite</strong> to work with CloudXR:</p>
-            <ol>
-                <li>Install <a href="https://gitlab.com/znixian/OpenOVR" target="_blank" style="color: var(--accent);">OpenComposite</a></li>
-                <li>Close SteamVR completely before launching</li>
-                <li>Launch the game — OpenComposite bridges it to CloudXR</li>
-            </ol>
+            <h3>SteamVR games</h3>
+            <p>These launch as normal. SteamVR starts with the KRVR driver and shows KRVR as the headset. No extra software, no compatibility layers.</p>
         </div>
 
-        <!-- Resolution -->
+        <!-- Tuning -->
         <div class="guide-section glass">
-            <h2>Resolution Settings</h2>
+            <h2>Tuning the picture</h2>
+            <h3>In the headset, while you play</h3>
+            <p>Open the pill and go to <strong>Quality</strong>. Everything here applies live.</p>
             <ul>
-                <li><strong>Render</strong> — GPU render resolution per eye. Higher = sharper image, more GPU load. Default 5000. Range 2000-8600.</li>
-                <li><strong>Stream</strong> — Encoded stream width sent to headset. Must be a multiple of 80. Default 2400. Range 800-4000.</li>
-                <li><strong>Inset</strong> — Size of the sharp centre zone as percentage of render resolution. Higher = bigger sharp area. Default 40. Range 10-100.</li>
-                <li><strong>Gaze</strong> — Eye-tracking concentration. 0 = even quality across the sharp zone. Higher = peak sharpness at gaze point, softer edges. Default 0. Range 0-100.</li>
+                <li><strong>Bitrate</strong> — how much video the network carries. Higher is sharper if your Wi-Fi keeps up</li>
+                <li><strong>Fovea size</strong> — how big the full-detail region around your gaze is. The stream size it produces is shown under the slider</li>
+                <li><strong>Periphery compress</strong> — how much the edges outside the fovea are reduced</li>
+                <li><strong>Sharpen</strong> — post-sharpening on the decoded picture</li>
             </ul>
-            <p>Press <strong>Save</strong> to apply — settings restart the stream automatically.</p>
-            <div class="tip">Start with defaults and increase Render first. Stream must be a multiple of 80 (2400, 2480, 2560, 2640, 2720 etc) or CloudXR will reject it.</div>
+
+            <h3>On the PC, before you connect</h3>
+            <ul>
+                <li><strong>Resolution</strong> — the render size the game is asked for</li>
+                <li><strong>Fovea density</strong> — pixel density in the fovea relative to the periphery</li>
+                <li><strong>FoV scale</strong> — trims the rendered field of view to save GPU time</li>
+                <li><strong>Stream rate</strong> — the target frame rate, normally 90</li>
+                <li><strong>IPD</strong> — your eye separation in millimetres</li>
+                <li><strong>Encoder preset</strong> and <strong>10-bit encode</strong> — quality versus encoder speed</li>
+            </ul>
+            <div class="tip">Start with the defaults. Raise Bitrate first, then Fovea size. If the picture stutters, your network is the limit, not the sliders.</div>
         </div>
 
-        <!-- Cockpit Passthrough -->
+        <!-- Motion Smoothing -->
         <div class="guide-section glass">
-            <h2>Cockpit Passthrough</h2>
-            <p>See your real steering wheel, HOTAS, and cockpit hardware through the virtual view. Create multiple masks, each world-anchored to stay in place between sessions.</p>
-            <ol>
-                <li>Tap the <strong>atom icon</strong> in the pill to open the mask panel</li>
-                <li>Tap <strong>+</strong> to create a new mask</li>
-                <li>Choose <strong>Freehand</strong> (trace with finger) or <strong>Box</strong> (place two corners)</li>
-                <li>A dot follows your right index finger — <strong>pinch</strong> to confirm the start position</li>
-                <li>For freehand: trace the shape, then tap <strong>Done</strong> to close it</li>
-                <li>For box: pinch to place the first corner, then pinch again for the opposite corner</li>
-                <li>The drawn area becomes a passthrough window showing the real world</li>
-            </ol>
-
-            <h3>Editing</h3>
-            <p>Tap the <strong>pencil icon</strong> on any mask to enter edit mode. Cyan handles appear on the shape — pinch near a handle to grab and drag it. A green handle at the centre moves the whole mask. Tap <strong>Done</strong> when finished.</p>
-
-            <h3>Options</h3>
+            <h2>Motion Smoothing</h2>
+            <p>Found under <strong>Performance</strong> in the pill.</p>
             <ul>
-                <li><strong>Eye icon</strong> — toggle mask visibility on/off</li>
-                <li><strong>Gyroscope icon</strong> — enable motion compensation for sim rigs (requires SimHub)</li>
-                <li><strong>Straight/Curved</strong> — toggle between sharp corners and smooth curves</li>
-                <li><strong>Handle count</strong> — adjust precision (10, 16, or 24 control points)</li>
+                <li><strong>On</strong> locks a game that cannot hold 90 to the steady rate it can hold (45, 30 or 22.5), so every frame lands on an even step. The stable choice for demanding games</li>
+                <li><strong>Off</strong> lets the game run free: every frame it makes ships at once, for the lowest latency, but frame timing is uneven when it drops below 90</li>
             </ul>
-            <div class="tip">Masks save automatically with world anchors. They load in the same position on next launch. Tap the headset battery icon to recentre all masks to your current head position.</div>
+            <p>A game holding 90 is untouched either way. The switch applies live, mid-game.</p>
+        </div>
+
+        <!-- Mixed reality -->
+        <div class="guide-section glass">
+            <h2>Mixed reality windows</h2>
+            <p>See your wheel, rig, keyboard or controllers through the game. Open <strong>Masks</strong> in the pill and follow the wizard: it places a passthrough window where you point, and the window stays anchored in the room between sessions. Use <strong>Immersion</strong> in the pill to fade the whole game towards passthrough instead, and <strong>FOV Crop</strong> to trim the edges of the picture.</p>
+        </div>
+
+        <!-- Audio -->
+        <div class="guide-section glass">
+            <h2>Audio and microphone</h2>
+            <ul>
+                <li><strong>Audio output</strong> in the PC app chooses where game sound goes: <strong>Headset</strong> or <strong>Desktop</strong>. One or the other, never both</li>
+                <li><strong>Game audio</strong> picks the Windows playback device KRVR captures from. Leave it on your default device unless you know why</li>
+                <li><strong>Headset mic</strong> sends your voice to the PC for in-game chat. It needs a virtual audio cable on the PC, such as VB-Audio Virtual Cable: pick its input here, then choose that cable as the microphone in your game or chat app</li>
+                <li>Mute from the pill with the <strong>Microphone</strong> toggle</li>
+            </ul>
         </div>
 
         <!-- Troubleshooting -->
         <div class="guide-section glass">
             <h2>Troubleshooting</h2>
 
-            <h3>Can't connect / session management failed</h3>
+            <h3>Headset cannot find the PC</h3>
             <ul>
-                <li>Check the correct IP is selected — pick the one on the same network as your Vision Pro</li>
-                <li>Close <strong>Sunshine, Moonlight, or Virtual Desktop Streamer</strong> — they use the same ports</li>
-                <li>Check <strong>Windows Firewall</strong> — allow KRVR through both Private and Public networks</li>
-                <li>Disconnect any <strong>VPN</strong> — it can route traffic to the wrong adapter</li>
-                <li>Make sure the runtime shows <strong>"CloudXR is active"</strong> in the PC app</li>
-                <li>Restart the PC app (Stop then Start) to clear any stale session</li>
+                <li>Both devices must be on the same network. Guest networks and some mesh systems isolate clients</li>
+                <li>Check the PC app is <strong>Started</strong> and the right adapter is chosen in its IP list</li>
+                <li>Allow KRVR through <strong>Windows Firewall</strong> on both Private and Public networks</li>
+                <li>Disconnect any <strong>VPN</strong> on the PC</li>
+                <li>Type the address shown in the PC app into the headset</li>
             </ul>
 
-            <h3>Game launches on monitor instead of VR</h3>
+            <h3>Game opens on the monitor instead of the headset</h3>
             <ul>
-                <li>KRVR must be connected <strong>before</strong> launching the game</li>
-                <li>Check game display settings are set to <strong>OpenXR</strong> (not SteamVR, not Oculus)</li>
-                <li>SteamVR/OpenVR games need <strong>OpenComposite</strong></li>
-                <li>Make sure <strong>SteamVR is closed</strong> — it fights over the runtime</li>
-                <li>Some games have a "Launch in VR" button — check the game's main menu</li>
+                <li>Connect <strong>before</strong> launching the game</li>
+                <li>OpenXR games: set the game's display mode to <strong>OpenXR</strong></li>
+                <li>SteamVR games: SteamVR should list KRVR as the headset. If it shows another headset, restart SteamVR after KRVR is connected</li>
             </ul>
 
-            <h3>QR code issues</h3>
+            <h3>Installer says files are still the old version</h3>
             <ul>
-                <li>QR keeps appearing every connection — disconnect, restart the PC app, and reconnect</li>
-                <li>The pairing saves after one successful scan — future connections skip QR automatically</li>
+                <li>SteamVR or a game was holding the files. Close them and run the installer again</li>
+                <li>If it persists, restart the PC and run the installer before opening anything else</li>
             </ul>
 
-            <h3>No audio in headset</h3>
+            <h3>Picture is soft or stutters</h3>
             <ul>
-                <li>Check the audio toggle is set to <strong>Headset</strong> in the PC app</li>
-                <li>Restart the session (Stop then Start then reconnect)</li>
+                <li>Raise <strong>Bitrate</strong> in Quality, then <strong>Fovea size</strong></li>
+                <li>Make sure the headset is on <strong>5 GHz</strong>, not 2.4 GHz, and the PC is on ethernet</li>
+                <li>Turn <strong>Motion Smoothing</strong> on for a game that cannot hold 90</li>
             </ul>
 
-            <h3>Headset sleep disconnects session</h3>
+            <h3>No sound in the headset</h3>
             <ul>
-                <li>Known visionOS limitation — the headset kills network when it sleeps</li>
-                <li>For short breaks: pause in KRVR before removing the headset</li>
-                <li>For long breaks: reconnect after putting the headset back on</li>
+                <li>Set <strong>Audio output</strong> to Headset in the PC app</li>
+                <li>Check <strong>Game audio</strong> points at the device the game plays through</li>
             </ul>
 
-            <h3>Image looks blurry</h3>
+            <h3>Headset sleep ends the session</h3>
             <ul>
-                <li>Increase the Render slider (try 4200-5000)</li>
-                <li>Increase the Stream slider (must be a multiple of 80 — try 2400-2720)</li>
-                <li>Make sure you're on <strong>5GHz WiFi</strong>, not 2.4GHz</li>
-                <li>Wired Ethernet on the PC makes a big difference</li>
+                <li>visionOS drops the network when the headset sleeps. Reconnect after you put it back on</li>
             </ul>
         </div>
 
@@ -483,7 +489,7 @@
             <a href="https://github.com/Kross82/KRVR-releases/issues" target="_blank">Report Issue</a>
             <a href="privacy.html">Privacy Policy</a>
         </div>
-        <p class="footer-copy">KRVR uses NVIDIA CloudXR technology. NVIDIA and CloudXR are trademarks of NVIDIA Corporation.</p>
+        <p class="footer-copy">KRVR is a product of KRXR LTD, registered in England &amp; Wales, company no. 17367119. Registered office: 71-75 Shelton Street, Covent Garden, London WC2H 9JQ, United Kingdom. Contact: karl@krvr.app</p>
     </div>
 </footer>
 
