@@ -8,7 +8,7 @@ KRVR streams your PC VR games to Apple Vision Pro over your home network. Eye-tr
 
 Native OpenXR games run through KRVR's own OpenXR runtime on the PC, with no SteamVR in the chain. Everything else runs through SteamVR with the KRVR driver. The headset side is the same either way.
 
-1. **Install the server.** Download `KRVR-Setup.exe` from the [latest release](https://github.com/Kross82/KRVR-releases/releases/latest) and run it. It registers the OpenXR runtime, the SteamVR driver and the firewall rules for you.
+1. **Install the server.** Download `KRVR-Setup-v2.0.0.exe` from the [latest release](https://github.com/Kross82/KRVR-releases/releases/latest) and run it. It registers the OpenXR runtime, the SteamVR driver and the firewall rules for you.
 2. **Press Connect.** Start the server on the PC, open KRVR on Vision Pro and tap Connect. The headset finds your PC on the local network by itself.
 3. **Launch your game.** Start any VR game on the PC.
 
