@@ -18,7 +18,6 @@ Upgrading from KRVR 1.x: the 2.0 installer replaces the old server. Close SteamV
 
 - **Eye-tracked foveated streaming** — the full-detail region follows your gaze. Built on Apple's Foveated Streaming framework; gaze data never leaves the headset.
 - **Steady frame delivery** — frame pacing keeps delivery locked to the display. Motion Smoothing gives a game that cannot keep up an even rate instead of a ragged one.
-- **Head tracking** — Vision Pro tracks your head and KRVR passes it to the game, through the OpenXR runtime or the SteamVR driver.
 - **Mixed reality windows** — cut a passthrough window into the game to see your wheel, rig, keyboard or controllers.
 - **Live tuning** — bitrate, fovea size, periphery compression and sharpening change while you play, no restarts.
 - **Audio and microphone** — game audio to the headset or your PC speakers. For your headset mic in games, install the free [VB-CABLE](https://vb-audio.com/Cable/) on the PC ([setup](https://krvr.app/setup.html#audio)).
