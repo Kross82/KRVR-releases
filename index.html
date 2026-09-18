@@ -170,11 +170,11 @@
 
         /* Stats bar */
         .stats {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 340px));
             justify-content: center;
-            gap: 48px;
-            padding: 40px 0;
-            flex-wrap: wrap;
+            gap: 24px 120px;
+            padding: 40px 24px;
         }
 
         .stat {
@@ -423,7 +423,7 @@
         @media (max-width: 640px) {
             .hero { padding: 120px 0 60px; }
             .hero-logo { width: 90vw; }
-            .stats { gap: 24px; }
+            .stats { grid-template-columns: 1fr; gap: 28px; }
             .stat-value { font-size: 28px; }
             .nav-links { gap: 16px; }
             .features-grid { grid-template-columns: 1fr; }
@@ -462,10 +462,6 @@
 </section>
 
 <section class="stats">
-    <div class="stat">
-        <div class="stat-value">Steady</div>
-        <div class="stat-label">Frame-paced delivery</div>
-    </div>
     <div class="stat">
         <div class="stat-value">Eye-tracked</div>
         <div class="stat-label">Foveated streaming</div>
