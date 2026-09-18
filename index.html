@@ -99,7 +99,7 @@
 
         /* Hero */
         .hero {
-            padding: 160px 0 100px;
+            padding: 160px 0 40px;
             text-align: center;
         }
 
@@ -170,15 +170,16 @@
 
         /* Stats bar */
         .stats {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 340px));
+            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 24px 120px;
-            padding: 40px 24px;
+            gap: 20px 72px;
+            padding: 16px 24px 8px;
         }
 
         .stat {
             text-align: center;
+            white-space: nowrap;
         }
         .stat-value {
             font-size: 36px;
@@ -407,7 +408,7 @@
 
 
         /* How it works */
-        .steps { padding: 60px 0; }
+        .steps { padding: 48px 0 60px; }
         .steps h2 { text-align: center; font-size: 32px; margin-bottom: 12px; }
         .steps-subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 40px; font-size: 16px; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.6; }
         .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
@@ -423,7 +424,7 @@
         @media (max-width: 640px) {
             .hero { padding: 120px 0 60px; }
             .hero-logo { width: 90vw; }
-            .stats { grid-template-columns: 1fr; gap: 28px; }
+            .stats { gap: 20px; }
             .stat-value { font-size: 28px; }
             .nav-links { gap: 16px; }
             .features-grid { grid-template-columns: 1fr; }
