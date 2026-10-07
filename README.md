@@ -12,7 +12,6 @@ Native OpenXR games run through KRVR's own OpenXR runtime on the PC, with no Ste
 2. **Press Connect.** Start the server on the PC, open KRVR on Vision Pro and tap Connect. The headset finds your PC on the local network by itself.
 3. **Launch your game.** Start any VR game on the PC.
 
-Upgrading from KRVR 1.x: the 2.0 installer replaces the old server. Close SteamVR and any VR game first, then run it over your existing install.
 
 ## Features
 
