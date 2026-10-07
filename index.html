@@ -101,6 +101,7 @@
         .hero {
             padding: 160px 0 40px;
             text-align: center;
+            background: radial-gradient(ellipse 42% 38% at 50% 34%, rgba(60, 110, 200, 0.26), transparent 70%);
         }
 
         .hero-logo {
@@ -108,6 +109,7 @@
             height: auto;
             margin: 0 auto 24px;
             display: block;
+            mix-blend-mode: screen;   /* the logo PNG has a black background - drop it into the page glow */
         }
 
         .hero h1 {
