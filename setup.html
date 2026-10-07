@@ -296,10 +296,18 @@
                 <div class="req-box">
                     <h4>Windows PC</h4>
                     <ul>
-                        <li>Windows 11</li>
-                        <li>NVIDIA GPU (NVENC is used for encoding)</li>
-                        <li>Latest NVIDIA drivers</li>
+                        <li>Windows 10 or Windows 11</li>
+                        <li>NVIDIA or AMD GPU</li>
+                        <li>Latest GPU drivers</li>
                         <li>Wired ethernet to your router</li>
+                        <li>SteamVR installed if you play SteamVR games</li>
+                    </ul>
+                </div>
+                <div class="req-box">
+                    <h4>Linux or SteamOS PC (testing)</h4>
+                    <ul>
+                        <li>Ubuntu 24.04 or newer, Fedora 39 or newer, Arch, or SteamOS</li>
+                        <li>NVIDIA or AMD GPU</li>
                         <li>SteamVR installed if you play SteamVR games</li>
                     </ul>
                 </div>
@@ -309,6 +317,7 @@
                         <li>KRVR from the App Store</li>
                         <li>Same local network as your PC</li>
                         <li>5 GHz Wi-Fi, Wi-Fi 6 recommended</li>
+                        <li>120 Hz needs Vision Pro with M5</li>
                     </ul>
                 </div>
             </div>
@@ -324,13 +333,26 @@
         <!-- Step 1 -->
         <div class="guide-section glass">
             <h2>Step 1 — Install the server on your PC</h2>
+            <h3>Windows</h3>
             <ol>
                 <li>Close SteamVR and any VR game</li>
-                <li>Download <strong>KRVR-Setup-v2.0.0.exe</strong> from the <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank" style="color: var(--accent);">Download for PC</a> button</li>
+                <li>Download the latest <strong>KRVR-Setup</strong> installer from the <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank" style="color: var(--accent);">Download for Windows</a> button</li>
                 <li>Run it. The installer registers the KRVR OpenXR runtime, the SteamVR driver and the firewall rules for you</li>
                 <li>KRVR appears on your desktop and in the Start menu</li>
             </ol>
             <div class="tip">The installer is signed by KRXR LTD. If the installer reports that files are still the old version, something was holding them open: close SteamVR and any game and run it again.</div>
+
+            <h3 id="linux">Linux and SteamOS (testing)</h3>
+            <p>Open the <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank" style="color: var(--accent);">latest release</a> and download the file for your system from the Linux and SteamOS section:</p>
+            <ul>
+                <li><strong>SteamOS or Steam Deck:</strong> the SteamOS .tar.gz file</li>
+                <li><strong>Ubuntu, Debian, Mint or Pop:</strong> the .deb file</li>
+                <li><strong>Fedora:</strong> the .rpm file</li>
+                <li><strong>Arch or Manjaro:</strong> the .pkg.tar.zst file</li>
+                <li><strong>Anything else:</strong> the Flatpak file</li>
+            </ul>
+            <p>Not sure your PC is ready? Run <strong>Linux-readiness-check.sh</strong> from the same page first. Step by step install notes are in <strong>LINUX-INSTALL.md</strong>. On SteamOS, run KRVR from Desktop Mode.</p>
+            <div class="tip">Linux and SteamOS support is in testing. Send feedback and your report file from the launcher's Diagnose button in the #linux-steamos channel on <a href="https://discord.gg/zsYw3SJkHD" target="_blank" style="color: var(--accent);">Discord</a>.</div>
         </div>
 
         <!-- Step 2 -->
@@ -353,7 +375,7 @@
                 <li>Open <strong>KRVR on your Vision Pro</strong>. It looks for your PC on the local network and shows it when found</li>
                 <li>Tap <strong>Connect</strong></li>
             </ol>
-            <div class="tip">No pairing codes, no QR. If the headset cannot see the PC, type the address shown in the PC app into the headset instead.</div>
+            <div class="tip">No pairing codes, no QR. If the headset cannot see the PC, type the address shown in the PC app into the headset instead. On SteamOS this is often needed.</div>
         </div>
 
         <!-- Step 4 -->
@@ -363,6 +385,9 @@
                 <li>Connect first, then launch the game on the PC from Steam, its own launcher or the desktop</li>
                 <li>The game appears in your headset</li>
             </ol>
+
+            <h3>Start games from the headset</h3>
+            <p>In the PC app, use <strong>Choose your games</strong> once to pick the games you play. They then appear with their artwork in the <strong>Games</strong> panel in the headset, where you can start and stop them without touching the PC.</p>
 
             <h3>OpenXR games</h3>
             <p>These run through KRVR's own OpenXR runtime, with no SteamVR in the chain. If the game has a display or VR mode setting, set it to <strong>OpenXR</strong>.</p>
@@ -406,10 +431,28 @@
             <p>A game that keeps up is untouched either way. The switch applies live, mid-game.</p>
         </div>
 
+        <!-- Refresh rate -->
+        <div class="guide-section glass" id="refresh">
+            <h2>90 or 120 Hz (Vision Pro with M5)</h2>
+            <p>Found under <strong>Performance</strong> in the pill, on Vision Pro with M5 only.</p>
+            <ul>
+                <li><strong>90 Hz</strong> is the default. The game runs at 90, the same as every Vision Pro</li>
+                <li><strong>120 Hz</strong> runs the game at 120 for smoother motion, when your PC can hold 120 frames a second in that game</li>
+            </ul>
+            <p>Use <strong>Mixed</strong> immersion for 120 Hz: in Full immersion Vision Pro usually keeps the display at 90. The choice applies live, and KRVR remembers it for next time.</p>
+            <div class="tip">If a game drops well below 120 at your settings, switch that game back to 90, or lower the resolution or SteamVR render scale.</div>
+        </div>
+
         <!-- Mixed reality -->
         <div class="guide-section glass">
             <h2>Mixed reality windows</h2>
             <p>See your wheel, rig, keyboard or controllers through the game. Open <strong>Masks</strong> in the pill and follow the wizard: it places a passthrough window where you point, and the window stays anchored in the room between sessions. Use <strong>Immersion</strong> in the pill to fade the whole game towards passthrough instead, and <strong>FOV Crop</strong> to trim the edges of the picture.</p>
+            <h3>Immersion modes</h3>
+            <ul>
+                <li><strong>Full</strong> hides your room completely</li>
+                <li><strong>Mixed</strong> keeps your room behind the game. Needed for masks, and the mode for 120 Hz</li>
+                <li><strong>Progressive</strong> lets the Digital Crown fade your room in and out</li>
+            </ul>
         </div>
 
         <!-- Audio -->
@@ -478,7 +521,8 @@
         <!-- CTA -->
         <div class="cta-buttons">
             <a href="https://apps.apple.com/us/app/krvr/id6761065018" class="btn btn-primary" target="_blank">App Store</a>
-            <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for PC</a>
+            <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for Windows</a>
+            <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Linux and SteamOS (testing)</a>
         </div>
 
         <p style="text-align: center; font-size: 13px; color: var(--text-secondary);">Need more help? <a href="https://discord.gg/zsYw3SJkHD" target="_blank" style="color: var(--accent); text-decoration: none;">Join our Discord</a></p>
