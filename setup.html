@@ -1,34 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRVR — Setup Guide</title>
-    <meta name="description" content="Set up KRVR: install the free Windows server, connect from Apple Vision Pro, launch any PC VR game. Tuning, mixed reality windows, audio and troubleshooting.">
-    <link rel="icon" href="assets/krvr_icon.png" type="image/png">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The KRVR guide: install the free Windows server, connect from Apple Vision Pro, launch any PC VR game. Picture quality, smoothness, controllers, mixed reality windows, audio and fixes.">
+<link rel="icon" href="assets/krvr_icon.png" type="image/png">
+<title>KRVR — Setup Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Sora:wght@500;600;700&display=swap">
+<style>
+  /* Single dark look on purpose: it matches the KRVR app and server window people hold it up against. */
+  :root {
+    color-scheme: dark;
+    --bg: #07090c;
+    --panel: #11151b;
+    --line: rgba(255,255,255,0.09);
+    --text: #eef2f6;
+    --muted: rgba(232,238,244,0.66);
+    --faint: rgba(232,238,244,0.40);
+    --accent: #4fddf5;
+    --good: #7ee08a;
+    --bad: #ff6b6b;
+    --warn: #ffb35c;
+    --ui: -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    --head: "Sora", -apple-system, "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    background: radial-gradient(900px 500px at 15% -5%, #16202b 0%, var(--bg) 60%) fixed, var(--bg);
+    color: var(--text); font: 15px/1.6 var(--ui);
+    padding-inline: 16px; padding-block: 40px 72px;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .wrap { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+  header { display: flex; flex-direction: column; gap: 12px; }
+  .kicker { font: 600 12px/1 var(--head); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  h1 { font: 700 clamp(30px, 5.4vw, 44px)/1.12 var(--head); margin: 0; text-wrap: balance; }
+  .lead { color: var(--muted); max-width: 62ch; margin: 0; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* contents */
+  .toc { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+  .toc a { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); color: var(--text); }
+  .toc a:hover { border-color: rgba(79,221,245,0.45); text-decoration: none; }
+  .toc b { font: 600 15px var(--head); }
+  .toc span { font-size: 12.5px; color: var(--muted); }
 
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --glass-highlight: rgba(255, 255, 255, 0.18);
-            --text-primary: rgba(255, 255, 255, 0.95);
-            --text-secondary: rgba(255, 255, 255, 0.6);
-            --accent: #6cb4ff;
-        }
+  /* parts */
+  .part { display: flex; flex-direction: column; gap: 30px; scroll-margin-top: 20px; }
+  .part-head { display: flex; flex-direction: column; gap: 6px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .part-head h2 { font: 700 clamp(24px, 4vw, 30px)/1.2 var(--head); margin: 0; text-wrap: balance; }
+  .part-head p { margin: 0; color: var(--muted); max-width: 62ch; }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000;
-            color: var(--text-primary);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+  .step { display: grid; grid-template-columns: 52px 1fr; gap: 18px; }
+  .num { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font: 700 18px var(--head); color: #04161a; background: var(--accent); }
+  .where { font: 600 11px var(--head); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin: 2px 0 4px; }
+  h3 { font: 600 20px/1.3 var(--head); margin: 0 0 8px; text-wrap: balance; }
+  .item { display: flex; flex-direction: column; gap: 10px; scroll-margin-top: 20px; }
+  .item p, .step p { margin: 0; max-width: 64ch; color: var(--muted); }
+  .item p b, .step p b, li b { color: var(--text); font-weight: 600; }
+  .shot { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .cap { font-size: 12.5px; color: var(--faint); max-width: 64ch; }
+  .ip { font-family: var(--mono); color: var(--text); }
 
-        .bg-ambient {
+  /* settings explained as label + one line */
+  .defs { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .def { display: grid; grid-template-columns: minmax(130px, 200px) 1fr; gap: 16px; padding: 11px 2px; border-bottom: 1px solid var(--line); }
+  .def dt { font: 600 14px var(--ui); color: var(--text); }
+  .def dd { margin: 0; color: var(--muted); font-size: 14px; }
+  .tag { display: inline-block; font: 600 10.5px var(--ui); letter-spacing: .04em; padding: 1px 7px; border-radius: 9px; margin-left: 6px; vertical-align: 1px; }
+  .tag.live { background: rgba(126,224,138,0.14); color: var(--good); }
+  .tag.next { background: rgba(255,179,92,0.15); color: var(--warn); }
+
+  /* ---- PC server window (drawn from the launcher's own layout) ---- */
+  .pc { background: #1b1b1f; border-radius: 14px; padding: 14px; max-width: 580px; border: 1px solid #2a2a30; display: flex; flex-direction: column; gap: 10px; }
+  .pc-card { background: #26262b; border-radius: 12px; padding: 14px 16px 16px; }
+  .pc-label { font-size: 12px; color: #9a9aa4; margin-bottom: 8px; }
+  .pc-state { display: flex; align-items: center; gap: 8px; font-weight: 600; margin-bottom: 12px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #e5484d; flex: none; }
+  .dot.on { background: #3ecf6e; }
+  .pc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pc-ipbox { background: #1d1d22; border-radius: 10px; display: flex; align-items: center; gap: 8px; padding: 8px 10px; font-size: 13px; color: #b9b9c2; min-width: 0; }
+  .pc-ipbox .lbl { color: #7a7a84; font-size: 12px; }
+  .pc-ipbox .val { flex: 1; min-width: 0; background: #2c2c33; border-radius: 6px; padding: 5px 8px; font-family: var(--mono); color: #e8e8ee; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pc-start { background: #2563eb; color: #fff; border-radius: 10px; display: grid; place-items: center; font-weight: 600; min-height: 42px; }
+  .pc-start.stop { background: #3a3a42; }
+  .pc-foot { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #8a8a94; }
+  .pc-foot .ver { font-family: var(--mono); color: #c9c9d2; }
+  .pc-sl { display: grid; grid-template-columns: 112px 1fr 64px; align-items: center; gap: 10px; font-size: 12.5px; color: #c9c9d2; padding: 5px 0; }
+  .pc-sl .tr { height: 4px; border-radius: 4px; background: #3a3a42; position: relative; }
+  .pc-sl .tr i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: #4a8cff; }
+  .pc-sl .tr i::after { content: ""; position: absolute; right: -7px; top: -5px; width: 14px; height: 14px; border-radius: 50%; background: #e8e8ee; }
+  .pc-sl .v { font-family: var(--mono); color: #e8e8ee; text-align: right; }
+  .pc-sel { justify-self: start; background: #2c2c33; border-radius: 6px; padding: 3px 10px; color: #e8e8ee; font-size: 12px; }
+  .pc-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pc-btn { background: #2c2c33; border-radius: 8px; padding: 7px 14px; font-size: 13px; color: #e8e8ee; }
+  .ring { outline: 2px solid var(--warn); outline-offset: 3px; border-radius: 10px; }
+
+  /* ---- Vision Pro (black liquid glass, from the app's SwiftUI) ---- */
+  .avp { background: linear-gradient(180deg, #2c3038 0%, #0c0e12 100%); border: 1px solid rgba(255,255,255,0.11); border-radius: 999px; padding: 10px; display: inline-flex; align-items: center; gap: 8px; max-width: 100%; flex-wrap: wrap; box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14); }
+  .puck { background: linear-gradient(180deg, rgba(255,255,255,0.20), rgba(255,255,255,0.07)); border: 1px solid rgba(255,255,255,0.22); border-radius: 999px; box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+  .avp-connect { display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 22px; color: var(--accent); font: 600 15px var(--ui); }
+  .avp-connect .h { font: 500 12px var(--mono); color: var(--muted); }
+  .avp-dots { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: #ffd45c; }
+  .avp-msg { font: 500 13px var(--ui); color: var(--muted); padding: 2px 14px 0; }
+  .avp-err { font: 500 12px var(--ui); color: var(--bad); padding: 2px 14px 0; text-align: center; }
+  .pillbox { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 28px 12px; border-radius: 18px; background: radial-gradient(500px 220px at 50% 0%, #1b2430, #0b0f15 70%); border: 1px solid var(--line); overflow-x: auto; }
+  .ico { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font: 600 15px var(--ui); color: var(--text); position: relative; flex: none; }
+  .ico.x { color: var(--bad); }
+  .ico.on { color: var(--accent); }
+  .stat { height: 44px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; padding: 0 14px; font: 600 13px var(--mono); }
+  .stat small { font: 600 10px var(--ui); color: var(--muted); letter-spacing: .06em; }
+  .ico b { position: absolute; top: -9px; right: -7px; width: 18px; height: 18px; border-radius: 50%; background: var(--warn); color: #1a1205; font: 700 11px/18px var(--head); text-align: center; }
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 6px 18px; margin: 0; padding: 0; list-style: none; }
+  .legend li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font-size: 14px; color: var(--muted); }
+  .legend li i { font-style: normal; width: 18px; height: 18px; border-radius: 50%; background: var(--warn); color: #1a1205; font: 700 11px/18px var(--head); text-align: center; margin-top: 2px; }
+
+  .sheet { width: 100%; max-width: 480px; padding: 22px; border-radius: 30px; background: linear-gradient(180deg, rgba(44,48,56,0.92), rgba(12,14,18,0.96)); border: 1px solid rgba(255,255,255,0.11); box-shadow: 0 30px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.14); display: flex; flex-direction: column; gap: 8px; }
+  .sheet h4 { font: 700 22px var(--ui); margin: 0 4px 6px; }
+  .sec { font: 600 11px var(--ui); letter-spacing: 1.2px; text-transform: uppercase; color: var(--faint); padding: 10px 8px 2px; }
+  .tile { display: flex; align-items: center; gap: 14px; min-height: 54px; padding: 8px 16px 8px 10px; border-radius: 20px; background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.03)); border: 1px solid rgba(255,255,255,0.07); }
+  .badge { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; flex: none; }
+  .tile .nm { flex: 1; min-width: 0; }
+  .tile .nm b { display: block; font: 600 15px var(--ui); }
+  .tile .nm span { font: 500 12px var(--mono); color: var(--muted); }
+  .tile .go { font: 600 13px var(--ui); color: var(--accent); }
+  .tile .chev { color: var(--faint); font-size: 18px; }
+  .addr-l { font-size: 12px; color: var(--muted); padding-left: 6px; }
+  .field { height: 48px; border-radius: 999px; display: flex; align-items: center; padding: 0 18px; font: 500 15px var(--mono); background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.03)); border: 1px solid rgba(255,255,255,0.07); }
+  .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 6px; }
+  .btns div { height: 46px; border-radius: 999px; display: grid; place-items: center; font: 600 14px var(--ui); }
+  .cancel { background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.03)); border: 1px solid rgba(255,255,255,0.07); }
+  .save { color: var(--accent); font-weight: 700 !important; }
+
+  /* glass slider row (the app's dotted slider) */
+  .gsl { display: grid; grid-template-columns: 132px 1fr 78px; align-items: center; gap: 12px; height: 54px; padding: 0 18px; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.03)); border: 1px solid rgba(255,255,255,0.07); font: 500 14px var(--ui); }
+  .gsl .tr { height: 26px; border-radius: 13px; position: relative; background-image: radial-gradient(circle, rgba(255,255,255,0.28) 1.4px, transparent 1.6px); background-size: 12px 26px; background-position: 0 center; }
+  .gsl .tr i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 13px; background: linear-gradient(90deg, rgba(79,221,245,0.10), rgba(79,221,245,0.30)); border-right: 2px solid #fff; }
+  .gsl .tr u { position: absolute; bottom: -6px; width: 2px; height: 7px; background: var(--good); border-radius: 1px; }
+  .gsl .v { font: 600 15px var(--mono); text-align: right; }
+  .gsl-help { font-size: 11.5px; color: var(--muted); padding: 0 18px 4px; }
+  .seg { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(255,255,255,0.07); gap: 2px; }
+  .seg span { padding: 5px 14px; border-radius: 999px; font: 600 13px var(--ui); color: var(--muted); }
+  .seg span.on { background: rgba(255,255,255,0.18); color: var(--text); }
+  .card { border-radius: 24px; padding: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)); border: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 10px; }
+  .card-h { display: flex; align-items: center; gap: 10px; font: 600 16px var(--ui); }
+  .card-h .badge { width: 30px; height: 30px; font-size: 13px; }
+  .fov { position: relative; max-width: 420px; width: 100%; margin: 0 auto; aspect-ratio: 120 / 95; }
+  .fov img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 30% / 38%; }
+  .fov svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .readout { display: flex; align-items: baseline; gap: 8px; padding: 10px 16px; border-radius: 16px; background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.03)); border: 1px solid rgba(255,255,255,0.07); font-size: 13px; color: var(--muted); }
+  .readout b { font: 600 15px var(--mono); color: var(--text); }
+
+  /* tips */
+  .fixes { display: grid; gap: 12px; }
+  .fix { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 16px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); }
+  .fix .n { font: 700 15px var(--head); color: var(--warn); }
+  .fix h4 { font: 600 16px var(--head); margin: 0 0 4px; }
+  .fix p { margin: 0; color: var(--muted); max-width: 64ch; }
+  .path { font: 500 13px var(--mono); color: var(--text); background: rgba(255,255,255,0.06); border-radius: 6px; padding: 1px 6px; }
+  .note { font-size: 13px; color: var(--faint); max-width: 64ch; margin: 0; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  @media (max-width: 720px) { .two { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) {
+    .step { grid-template-columns: 1fr; gap: 10px; }
+    .pc-row { grid-template-columns: 1fr; }
+    .def { grid-template-columns: 1fr; gap: 2px; }
+    .gsl { grid-template-columns: 96px 1fr 60px; padding: 0 14px; gap: 8px; }
+    .pc-sl { grid-template-columns: 92px 1fr 52px; }
+  }
+</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        
+
+.bg-ambient {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: -1;
@@ -37,22 +188,12 @@
                 radial-gradient(ellipse 60% 40% at 80% 80%, rgba(80, 60, 160, 0.08), transparent),
                 radial-gradient(ellipse 50% 30% at 20% 60%, rgba(40, 120, 200, 0.06), transparent);
         }
-
-        .glass {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            backdrop-filter: blur(40px) saturate(1.5);
-            -webkit-backdrop-filter: blur(40px) saturate(1.5);
-        }
-
-        .container {
+.container {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 24px;
         }
-
-        nav {
+nav {
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 100;
@@ -62,15 +203,13 @@
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
-
-        nav .container {
+nav .container {
             max-width: 1100px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .nav-logo {
+.nav-logo {
             font-size: 20px;
             font-weight: 700;
             letter-spacing: 3px;
@@ -79,191 +218,50 @@
             -webkit-text-fill-color: transparent;
             text-decoration: none;
         }
-
-        .nav-links { display: flex; gap: 24px; align-items: center; }
-        .nav-links a {
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: color 0.2s;
         }
-        .nav-links a:hover { color: var(--text-primary); }
-
-        .page-header {
-            padding: 140px 0 40px;
-            text-align: center;
-        }
-
-        .page-header h1 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .page-header p {
-            color: var(--text-secondary);
-            font-size: 16px;
-        }
-
-        .guide-section {
-            padding: 32px;
-            margin-bottom: 20px;
-        }
-
-        .guide-section h2 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--accent);
-        }
-
-        .guide-section h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin: 20px 0 8px;
-        }
-
-        .guide-section p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 8px;
-        }
-
-        .guide-section ol, .guide-section ul {
-            padding-left: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin: 12px 0;
-        }
-
-        .guide-section li {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .guide-section li strong {
-            color: var(--text-primary);
-        }
-
-        .guide-section .warning {
-            background: rgba(255, 68, 68, 0.1);
-            border: 1px solid rgba(255, 68, 68, 0.2);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 13px;
-            color: #ff8888;
-            margin: 12px 0;
-        }
-
-        .guide-section .tip {
-            background: rgba(108, 180, 255, 0.08);
-            border: 1px solid rgba(108, 180, 255, 0.15);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 13px;
-            color: var(--accent);
-            margin: 12px 0;
-        }
-
-        .req-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin: 16px 0;
-        }
-
-        .req-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 16px;
-        }
-
-        .req-box h4 {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--accent);
-        }
-
-        .req-box li {
-            font-size: 13px;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin: 32px 0;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #4a9eff, #2d7ad4);
-            color: #fff;
-            border: 1px solid rgba(108, 180, 255, 0.4);
-        }
-        .btn-primary:hover { transform: translateY(-2px); }
-
-        .btn-glass {
-            background: var(--glass-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--glass-border);
-        }
-        .btn-glass:hover { background: var(--glass-highlight); transform: translateY(-2px); }
-
-        footer {
+.nav-links a:hover { color: var(--text-primary); }
+footer {
             padding: 40px 0;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
-
-        .footer-links {
+.footer-links {
             display: flex;
             justify-content: center;
             gap: 24px;
             margin-bottom: 16px;
         }
-
-        .footer-links a {
+.footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 14px;
             transition: color 0.2s;
         }
-        .footer-links a:hover { color: var(--text-primary); }
-
-        .footer-copy {
+.footer-links a:hover { color: var(--text-primary); }
+.footer-copy {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.3);
         }
+:root { --text-primary: rgba(255,255,255,0.95); --text-secondary: rgba(255,255,255,0.6); }
+nav, footer { font-family: 'Inter', -apple-system, "Segoe UI", system-ui, sans-serif; }
+nav .container { padding: 0 16px; gap: 12px; }
+.nav-links { flex-wrap: wrap; gap: 16px 20px; justify-content: flex-end; }
+.footer-links { flex-wrap: wrap; gap: 12px 24px; padding: 0 16px; }
+.footer-copy { padding: 0 16px; }
+footer { margin-top: 64px; }
+body { padding-top: 96px !important; }
+.part, .item, .def[id] { scroll-margin-top: 88px; }
 
-        @media (max-width: 640px) {
-            .page-header { padding: 120px 0 30px; }
-            .page-header h1 { font-size: 28px; }
-            .req-grid { grid-template-columns: 1fr; }
-            .guide-section { padding: 24px; }
-        }
-    </style>
+</style>
 </head>
 <body>
-
 <div class="bg-ambient"></div>
 
 <nav>
@@ -279,250 +277,480 @@
     </div>
 </nav>
 
-<section class="page-header">
-    <div class="container">
-        <h1>Setup Guide</h1>
-        <p>From download to your first game in a few minutes.</p>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">KRVR 2.0.6</div>
+    <h1>The KRVR guide</h1>
+    <p class="lead">Everything in KRVR, on the PC and in the Vision Pro, in one place. New to KRVR? Start with Connect. Everything else you can dip into when you need it.</p>
+    <div class="toc" role="navigation" aria-label="Contents">
+      <a href="#start"><b>Before you start</b><span>What you need, installing</span></a>
+      <a href="#connect"><b>Connect</b><span>First time set up, about a minute</span></a>
+      <a href="#pc"><b>The PC window</b><span>Start, resolution, audio, games</span></a>
+      <a href="#pill"><b>The pill</b><span>The bar you use in the headset</span></a>
+      <a href="#games"><b>Games</b><span>Starting games, OpenXR and SteamVR</span></a>
+      <a href="#quality"><b>Picture quality</b><span>Bitrate, foveation, crop</span></a>
+      <a href="#performance"><b>Smoothness</b><span>Motion Smoothing, frame delivery</span></a>
+      <a href="#controllers"><b>Controllers and hands</b><span>PSVR2, hand tracking, feel</span></a>
+      <a href="#space"><b>Your real room</b><span>Cockpit, hand discs, masks, roomscale</span></a>
+      <a href="#help"><b>When something's wrong</b><span>Fixes and how to get help</span></a>
     </div>
-</section>
+  </header>
 
-<section style="padding: 0 0 40px;">
-    <div class="container">
+  <!-- ===================== START ===================== -->
+  <section class="part" id="start">
+    <div class="part-head">
+      <div class="kicker">Before you start</div>
+      <h2>What you need and installing</h2>
+    </div>
+    <div class="item">
+      <h3>What you need</h3>
+      <dl class="defs">
+        <div class="def"><dt>A Windows PC</dt><dd>With an NVIDIA or AMD graphics card, and your VR games installed.</dd></div>
+        <div class="def"><dt>An Apple Vision Pro</dt><dd>On a current visionOS.</dd></div>
+        <div class="def"><dt>One home network</dt><dd>PC and headset on the same network. A wired PC and a Wi-Fi 6 or 6E router in the same room give the steadiest picture.</dd></div>
+      </dl>
+    </div>
+    <div class="item">
+      <h3>Install on the PC</h3>
+      <p>Download the installer from the <a href="https://github.com/Kross82/KRVR-releases/releases/latest">latest release</a>, run it and follow it through. Windows asks for permission once. Then open <b>KRVR</b> from the Start menu.</p>
+    </div>
+    <div class="item">
+      <h3>Install on the headset</h3>
+      <p>Open the <a href="https://apps.apple.com/us/app/krvr/id6761065018">App Store</a> on your Vision Pro, search for <b>KRVR</b> and tap <b>Get</b>. Open it and allow what it asks for: <b>world sensing</b> places the picture in your room, <b>hand tracking</b> is for hand input and the passthrough windows. If you play SteamVR games, run SteamVR room setup on the PC once.</p>
+    </div>
+    <div class="item" id="linux">
+      <h3>Linux and SteamOS (testing)</h3>
+      <p>Open the <a href="https://github.com/Kross82/KRVR-releases/releases/latest">latest release</a> and download the file for your system from the Linux and SteamOS section:</p>
+      <dl class="defs">
+        <div class="def"><dt>SteamOS or Steam Deck</dt><dd>The SteamOS .tar.gz file. Run KRVR from Desktop Mode.</dd></div>
+        <div class="def"><dt>Ubuntu, Debian, Mint, Pop</dt><dd>The .deb file.</dd></div>
+        <div class="def"><dt>Fedora</dt><dd>The .rpm file.</dd></div>
+        <div class="def"><dt>Arch or Manjaro</dt><dd>The .pkg.tar.zst file.</dd></div>
+        <div class="def"><dt>Anything else</dt><dd>The Flatpak file.</dd></div>
+      </dl>
+      <p class="note">Not sure your PC is ready? Run Linux-readiness-check.sh from the same page first. Step by step notes are in LINUX-INSTALL.md there. Send feedback and your Diagnose report in the #linux-steamos channel on Discord.</p>
+    </div>
+  </section>
 
-        <!-- Requirements -->
-        <div class="guide-section glass">
-            <h2>Requirements</h2>
-            <div class="req-grid">
-                <div class="req-box">
-                    <h4>Windows PC</h4>
-                    <ul>
-                        <li>Windows 10 or Windows 11</li>
-                        <li>NVIDIA or AMD GPU</li>
-                        <li>Latest GPU drivers</li>
-                        <li>Wired ethernet to your router</li>
-                        <li>SteamVR installed if you play SteamVR games</li>
-                    </ul>
-                </div>
-                <div class="req-box">
-                    <h4>Linux or SteamOS PC (testing)</h4>
-                    <ul>
-                        <li>Ubuntu 24.04 or newer, Fedora 39 or newer, Arch, or SteamOS</li>
-                        <li>NVIDIA or AMD GPU</li>
-                        <li>SteamVR installed if you play SteamVR games</li>
-                    </ul>
-                </div>
-                <div class="req-box">
-                    <h4>Apple Vision Pro</h4>
-                    <ul>
-                        <li>KRVR from the App Store</li>
-                        <li>Same local network as your PC</li>
-                        <li>5 GHz Wi-Fi, Wi-Fi 6 recommended</li>
-                        <li>120 Hz needs Vision Pro with M5</li>
-                    </ul>
-                </div>
+  <!-- ===================== CONNECT ===================== -->
+  <section class="part" id="connect">
+    <div class="part-head">
+      <div class="kicker">Part 1</div>
+      <h2>Connect your Vision Pro to your PC</h2>
+      <p>Do these in order the first time. After that the headset remembers your PC and Connect is all you need. You need the KRVR server on your Windows PC, the KRVR app on your Vision Pro, and both on the same Wi-Fi.</p>
+    </div>
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="item">
+        <div class="where">On your PC</div>
+        <h3>Open KRVR and press Start</h3>
+        <p>Open the KRVR window on your PC and press the blue <b>Start</b> button. The dot turns green and it says <b>Running</b>. The headset can't connect until this is done. The first time, Windows may ask whether to allow KRVR on your network: press <b>Allow</b>.</p>
+        <div class="shot">
+          <div class="pc">
+            <div class="pc-card">
+              <div class="pc-label">Server</div>
+              <div class="pc-state"><span class="dot"></span>Stopped</div>
+              <div class="pc-row">
+                <div class="pc-ipbox"><span class="dot"></span>Offline <span class="lbl">IP</span><span class="val">192.168.1.23</span></div>
+                <div class="pc-start ring">Start</div>
+              </div>
             </div>
-            <div class="tip">Streaming quality is decided by your network. A wired PC and a 5 GHz access point in the same room as the headset make the biggest difference of anything on this page.</div>
+            <div class="pc-foot"><span>Setup guide · Diagnose</span><span class="ver">v2.0.6</span></div>
+          </div>
+          <div class="cap">Stopped. Press Start (circled). Your version is in the bottom-right corner.</div>
         </div>
-
-        <!-- Step 1 -->
-        <div class="guide-section glass">
-            <h2>Step 1 — Install the server on your PC</h2>
-            <h3>Windows</h3>
-            <ol>
-                <li>Close SteamVR and any VR game</li>
-                <li>Download the latest <strong>KRVR-Setup</strong> installer from the <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank" style="color: var(--accent);">Download for Windows</a> button</li>
-                <li>Run it. The installer registers the KRVR OpenXR runtime, the SteamVR driver and the firewall rules for you</li>
-                <li>KRVR appears on your desktop and in the Start menu</li>
-            </ol>
-            <div class="tip">The installer is signed by KRXR LTD. If the installer reports that files are still the old version, something was holding them open: close SteamVR and any game and run it again.</div>
-
-            <h3 id="linux">Linux and SteamOS (testing)</h3>
-            <p>Open the <a href="https://github.com/Kross82/KRVR-releases/releases/latest" target="_blank" style="color: var(--accent);">latest release</a> and download the file for your system from the Linux and SteamOS section:</p>
-            <ul>
-                <li><strong>SteamOS or Steam Deck:</strong> the SteamOS .tar.gz file</li>
-                <li><strong>Ubuntu, Debian, Mint or Pop:</strong> the .deb file</li>
-                <li><strong>Fedora:</strong> the .rpm file</li>
-                <li><strong>Arch or Manjaro:</strong> the .pkg.tar.zst file</li>
-                <li><strong>Anything else:</strong> the Flatpak file</li>
-            </ul>
-            <p>Not sure your PC is ready? Run <strong>Linux-readiness-check.sh</strong> from the same page first. Step by step install notes are in <strong>LINUX-INSTALL.md</strong>. On SteamOS, run KRVR from Desktop Mode.</p>
-            <div class="tip">Linux and SteamOS support is in testing. Send feedback and your report file from the launcher's Diagnose button in the #linux-steamos channel on <a href="https://discord.gg/zsYw3SJkHD" target="_blank" style="color: var(--accent);">Discord</a>.</div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="guide-section glass">
-            <h2>Step 2 — Install the Vision Pro app</h2>
-            <ol>
-                <li>Open the <a href="https://apps.apple.com/us/app/krvr/id6761065018" target="_blank" style="color: var(--accent);">App Store</a> on your Vision Pro and search for <strong>KRVR</strong></li>
-                <li>Tap <strong>Get</strong></li>
-                <li>KRVR appears on your home view</li>
-            </ol>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="guide-section glass">
-            <h2>Step 3 — Connect</h2>
-            <ol>
-                <li>Open <strong>KRVR on your PC</strong></li>
-                <li>If your PC has more than one network adapter, pick the one on the same network as your Vision Pro from the <strong>IP</strong> list</li>
-                <li>Press <strong>Start</strong></li>
-                <li>Open <strong>KRVR on your Vision Pro</strong>. It looks for your PC on the local network and shows it when found</li>
-                <li>Tap <strong>Connect</strong></li>
-            </ol>
-            <div class="tip">No pairing codes, no QR. If the headset cannot see the PC, type the address shown in the PC app into the headset instead. On SteamOS this is often needed.</div>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="guide-section glass">
-            <h2>Step 4 — Launch a game</h2>
-            <ol>
-                <li>Connect first, then launch the game on the PC from Steam, its own launcher or the desktop</li>
-                <li>The game appears in your headset</li>
-            </ol>
-
-            <h3>Start games from the headset</h3>
-            <p>In the PC app, use <strong>Choose your games</strong> once to pick the games you play. They then appear with their artwork in the <strong>Games</strong> panel in the headset, where you can start and stop them without touching the PC.</p>
-
-            <h3>OpenXR games</h3>
-            <p>These run through KRVR's own OpenXR runtime, with no SteamVR in the chain. If the game has a display or VR mode setting, set it to <strong>OpenXR</strong>.</p>
-
-            <h3>SteamVR games</h3>
-            <p>These launch as normal. SteamVR starts with the KRVR driver and shows KRVR as the headset. No extra software, no compatibility layers.</p>
-        </div>
-
-        <!-- Tuning -->
-        <div class="guide-section glass">
-            <h2>Tuning the picture</h2>
-            <h3>In the headset, while you play</h3>
-            <p>Open the pill and go to <strong>Quality</strong>. Everything here applies live.</p>
-            <ul>
-                <li><strong>Bitrate</strong> — how much video the network carries. Higher is sharper if your Wi-Fi keeps up</li>
-                <li><strong>Fovea size</strong> — how big the full-detail region around your gaze is. The stream size it produces is shown under the slider</li>
-                <li><strong>Periphery compress</strong> — how much the edges outside the fovea are reduced</li>
-                <li><strong>Sharpen</strong> — post-sharpening on the decoded picture</li>
-            </ul>
-
-            <h3>On the PC, before you connect</h3>
-            <ul>
-                <li><strong>Resolution</strong> — the render size the game is asked for</li>
-                <li><strong>Fovea density</strong> — pixel density in the fovea relative to the periphery</li>
-                <li><strong>FoV scale</strong> — trims the rendered field of view to save GPU time</li>
-                <li><strong>Stream rate</strong> — the target frame rate</li>
-                <li><strong>IPD</strong> — your eye separation in millimetres</li>
-                <li><strong>Encoder preset</strong> and <strong>10-bit encode</strong> — quality versus encoder speed</li>
-            </ul>
-            <div class="tip">Start with the defaults. Raise Bitrate first, then Fovea size. If the picture stutters, your network is the limit, not the sliders.</div>
-        </div>
-
-        <!-- Motion Smoothing -->
-        <div class="guide-section glass">
-            <h2>Motion Smoothing</h2>
-            <p>Found under <strong>Performance</strong> in the pill.</p>
-            <ul>
-                <li><strong>On</strong> locks a game that cannot keep up with the display to the steady rate it can hold, so every frame lands on an even step. The stable choice for demanding games</li>
-                <li><strong>Off</strong> lets the game run free: every frame it makes ships at once, for the lowest latency, but frame timing is uneven when the game falls behind</li>
-            </ul>
-            <p>A game that keeps up is untouched either way. The switch applies live, mid-game.</p>
-        </div>
-
-        <!-- Refresh rate -->
-        <div class="guide-section glass" id="refresh">
-            <h2>90 or 120 Hz (Vision Pro with M5)</h2>
-            <p>Found under <strong>Performance</strong> in the pill, on Vision Pro with M5 only.</p>
-            <ul>
-                <li><strong>90 Hz</strong> is the default. The game runs at 90, the same as every Vision Pro</li>
-                <li><strong>120 Hz</strong> runs the game at 120 for smoother motion, when your PC can hold 120 frames a second in that game</li>
-            </ul>
-            <p>Use <strong>Mixed</strong> immersion for 120 Hz: in Full immersion Vision Pro usually keeps the display at 90. The choice applies live, and KRVR remembers it for next time.</p>
-            <div class="tip">If a game drops well below 120 at your settings, switch that game back to 90, or lower the resolution or SteamVR render scale.</div>
-        </div>
-
-        <!-- Mixed reality -->
-        <div class="guide-section glass">
-            <h2>Mixed reality windows</h2>
-            <p>See your wheel, rig, keyboard or controllers through the game. Open <strong>Masks</strong> in the pill and follow the wizard: it places a passthrough window where you point, and the window stays anchored in the room between sessions. Use <strong>Immersion</strong> in the pill to fade the whole game towards passthrough instead, and <strong>FOV Crop</strong> to trim the edges of the picture.</p>
-            <h3>Immersion modes</h3>
-            <ul>
-                <li><strong>Full</strong> hides your room completely</li>
-                <li><strong>Mixed</strong> keeps your room behind the game. Needed for masks, and the mode for 120 Hz</li>
-                <li><strong>Progressive</strong> lets the Digital Crown fade your room in and out</li>
-            </ul>
-        </div>
-
-        <!-- Audio -->
-        <div class="guide-section glass" id="audio">
-            <h2>Audio and microphone</h2>
-            <ul>
-                <li><strong>Audio output</strong> in the PC app chooses where game sound goes: <strong>Headset</strong> or <strong>Desktop</strong>. One or the other, never both</li>
-                <li><strong>Game audio</strong> picks the Windows playback device KRVR captures from. Leave it on your default device unless you know why</li>
-            </ul>
-
-            <h3>Microphone, one-time setup</h3>
-            <p>Sound to the headset needs nothing extra. Your voice going the other way does, because Windows only lets games read from a microphone <em>device</em>, and KRVR needs one to write into. VB-Cable provides it.</p>
-            <ol>
-                <li>Download <a href="https://vb-audio.com/Cable/" target="_blank" style="color: var(--accent);">VB-Cable</a> (free), run its installer as administrator, reboot if it asks. The KRVR app on the PC offers this link itself the first time it finds no cable</li>
-                <li>Leave <strong>Headset mic</strong> in the KRVR app on <strong>Auto</strong>; it picks up the cable by itself. You can also choose <strong>CABLE Input</strong> there explicitly</li>
-                <li>In your game, Discord or team radio, choose <strong>CABLE Output</strong> as the microphone</li>
-            </ol>
-            <div class="tip">If CABLE Input is not in the list after installing, Windows left the device disabled: open Sound settings, Recording devices, right-click CABLE Input and choose Enable. Mute any time from the pill with the <strong>Microphone</strong> toggle.</div>
-        </div>
-
-        <!-- Troubleshooting -->
-        <div class="guide-section glass">
-            <h2>Troubleshooting</h2>
-
-            <h3>Headset cannot find the PC</h3>
-            <ul>
-                <li>Both devices must be on the same network. Guest networks and some mesh systems isolate clients</li>
-                <li>Check the PC app is <strong>Started</strong> and the right adapter is chosen in its IP list</li>
-                <li>Allow KRVR through <strong>Windows Firewall</strong> on both Private and Public networks</li>
-                <li>Disconnect any <strong>VPN</strong> on the PC</li>
-                <li>Type the address shown in the PC app into the headset</li>
-            </ul>
-
-            <h3>Game opens on the monitor instead of the headset</h3>
-            <ul>
-                <li>Connect <strong>before</strong> launching the game</li>
-                <li>OpenXR games: set the game's display mode to <strong>OpenXR</strong></li>
-                <li>SteamVR games: SteamVR should list KRVR as the headset. If it shows another headset, restart SteamVR after KRVR is connected</li>
-            </ul>
-
-            <h3>Installer says files are still the old version</h3>
-            <ul>
-                <li>SteamVR or a game was holding the files. Close them and run the installer again</li>
-                <li>If it persists, restart the PC and run the installer before opening anything else</li>
-            </ul>
-
-            <h3>Picture is soft or stutters</h3>
-            <ul>
-                <li>Raise <strong>Bitrate</strong> in Quality, then <strong>Fovea size</strong></li>
-                <li>Make sure the headset is on <strong>5 GHz</strong>, not 2.4 GHz, and the PC is on ethernet</li>
-                <li>Turn <strong>Motion Smoothing</strong> on for a game that cannot keep up</li>
-            </ul>
-
-            <h3>No sound in the headset</h3>
-            <ul>
-                <li>Set <strong>Audio output</strong> to Headset in the PC app</li>
-                <li>Check <strong>Game audio</strong> points at the device the game plays through</li>
-            </ul>
-
-            <h3>Headset sleep ends the session</h3>
-            <ul>
-                <li>visionOS drops the network when the headset sleeps. Reconnect after you put it back on</li>
-            </ul>
-        </div>
-
-        <!-- CTA -->
-        <div class="cta-buttons">
-            <a href="https://apps.apple.com/us/app/krvr/id6761065018" class="btn btn-primary" target="_blank">App Store</a>
-            <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Download for Windows</a>
-            <a href="https://github.com/Kross82/KRVR-releases/releases/latest" class="btn btn-glass" target="_blank">Linux and SteamOS (testing)</a>
-        </div>
-
-        <p style="text-align: center; font-size: 13px; color: var(--text-secondary);">Need more help? <a href="https://discord.gg/zsYw3SJkHD" target="_blank" style="color: var(--accent); text-decoration: none;">Join our Discord</a></p>
-
+      </div>
     </div>
-</section>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="item">
+        <div class="where">On your PC</div>
+        <h3>Check it says Running, and note the IP</h3>
+        <p>The box next to the button shows your PC's <b>IP address</b>, four numbers with dots like <span class="ip">192.168.1.23</span>. You only need it if the headset doesn't find your PC by itself. There is no port number to enter anywhere. If your PC has more than one network, pick the one your Vision Pro is on from the IP list.</p>
+        <div class="shot">
+          <div class="pc">
+            <div class="pc-card">
+              <div class="pc-label">Server</div>
+              <div class="pc-state"><span class="dot on"></span>Running</div>
+              <div class="pc-row">
+                <div class="pc-ipbox ring"><span class="dot on"></span>Ready <span class="lbl">IP</span><span class="val">192.168.1.23</span></div>
+                <div class="pc-start stop">Stop</div>
+              </div>
+            </div>
+          </div>
+          <div class="cap">Running. The address in the IP box (circled) is the one the headset needs. Yours will be different.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div class="item">
+        <div class="where">On your Vision Pro</div>
+        <h3>Open the KRVR app and press Connect</h3>
+        <p>Open KRVR. A small bar, the pill, appears in front of you. Press <b>Connect</b>. It finds your PC within a few seconds and connects.</p>
+        <div class="shot">
+          <div class="pillbox">
+            <div class="avp">
+              <div class="avp-connect puck"><span>&#9654;</span><span>Connect</span><span class="h">192.168.1.23</span></div>
+              <div class="avp-dots">&#8226;&#8226;&#8226;</div>
+            </div>
+            <div class="avp-msg">Looking for your PC...</div>
+          </div>
+          <div class="cap">The pill before connecting. The three dots open the address screen in step 4.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">4</div>
+      <div class="item">
+        <div class="where">Only if step 3 didn't find your PC</div>
+        <h3>Pick your PC, or type its IP</h3>
+        <p>Press the <b>three dots</b> next to Connect. If your PC is listed under <b>Found on your network</b>, press it. If not, type the IP from step 2 into <b>Address</b> (numbers and dots only), press <b>Save</b>, then press Connect.</p>
+        <div class="shot">
+          <div class="sheet">
+            <h4>Connect to your PC</h4>
+            <div class="sec">Found on your network</div>
+            <div class="tile"><div class="badge" style="color:#5aa9ff;background:rgba(90,169,255,0.16)">&#9645;</div><div class="nm"><b>KRVR on MY-PC</b><span>192.168.1.23</span></div><div class="go">Connect</div></div>
+            <div class="sec">Or enter an address</div>
+            <div class="addr-l">Address</div>
+            <div class="field">192.168.1.23</div>
+            <div class="btns"><div class="cancel">Cancel</div><div class="save puck">Save</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">!</div>
+      <div class="item">
+        <div class="where">If it bounces you back to Connect</div>
+        <h3>The headset found the PC but can't get through</h3>
+        <div class="pillbox">
+          <div class="avp"><div class="avp-connect puck"><span>&#9654;</span><span>Connect</span><span class="h">192.168.1.23</span></div><div class="avp-dots">&#8226;&#8226;&#8226;</div></div>
+          <div class="avp-err">The KRVR server isn't running on 192.168.1.23 - press Start in the launcher, then Connect.</div>
+        </div>
+        <div class="fixes">
+          <div class="fix"><div class="n">1</div><div><h4>Press Start on the PC</h4><p>The PC window must say <b>Running</b>. Closing the window or restarting the PC stops it.</p></div></div>
+          <div class="fix"><div class="n">2</div><div><h4>Let KRVR through Windows Firewall</h4><p>Open <span class="path">Windows Security &gt; Firewall &amp; network protection &gt; Allow an app through firewall</span>, find <b>KRVR Stream Server</b> and tick <b>Private</b> and <b>Public</b>.</p></div></div>
+          <div class="fix"><div class="n">3</div><div><h4>Turn on Local Network for KRVR</h4><p>On the Vision Pro open <span class="path">Settings &gt; Privacy &amp; Security &gt; Local Network</span> and turn <b>KRVR</b> on.</p></div></div>
+          <div class="fix"><div class="n">4</div><div><h4>Same Wi-Fi, right address</h4><p>The PC and headset must be on the same home network, not a guest network. Some mesh systems keep devices apart. Disconnect any VPN on the PC. A typed address must match the IP in the PC window exactly.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PC ===================== -->
+  <section class="part" id="pc">
+    <div class="part-head">
+      <div class="kicker">Part 2</div>
+      <h2>The PC window</h2>
+      <p>The KRVR window on your PC. Most people only ever press Start. Everything else is here when you want it.</p>
+    </div>
+
+    <div class="item">
+      <h3>Quality</h3>
+      <div class="shot">
+        <div class="pc">
+          <div class="pc-sl"><span>Resolution</span><span class="tr"><i style="width:48%"></i></span><span class="v">4096</span></div>
+          <div class="pc-sl"><span>FoV scale</span><span class="tr"><i style="width:33%"></i></span><span class="v">100 %</span></div>
+          <div class="pc-sl"><span>IPD</span><span class="tr"><i style="width:50%"></i></span><span class="v">64 mm</span></div>
+        </div>
+      </div>
+      <dl class="defs">
+        <div class="def"><dt>Resolution</dt><dd>How sharp the game draws. Higher is sharper but harder on your graphics card. Lower it if a game stutters. <span class="tag next">next game launch</span></dd></div>
+        <div class="def"><dt>FoV scale</dt><dd>How much of the view the game draws. Below 100% is narrower and sharper. <span class="tag next">next game launch</span></dd></div>
+        <div class="def"><dt>IPD</dt><dd>The distance between your eyes. If the world feels too small, lower it. Too big, raise it. 64 suits most people.</dd></div>
+      </dl>
+    </div>
+
+    <div class="item">
+      <h3>Stream</h3>
+      <dl class="defs">
+        <div class="def"><dt>Encoder preset</dt><dd>P1 is fastest with the lowest delay. Higher numbers give a cleaner picture but take longer. Keep P1 unless your graphics card has power to spare.</dd></div>
+        <div class="def"><dt>10-bit encode</dt><dd>Less banding in skies and dark scenes. Leave it on. <span class="tag live">live</span></dd></div>
+        <div class="def"><dt>Graphics card</dt><dd>NVIDIA or AMD. Only change it if the wrong one is shown.</dd></div>
+        <div class="def"><dt>OpenXR runtime</dt><dd>KRVR streams OpenXR games straight to the headset. SteamVR runs them through SteamVR instead.</dd></div>
+        <div class="def"><dt>Start with PC</dt><dd>Opens KRVR and starts the server when you sign in to Windows.</dd></div>
+      </dl>
+    </div>
+
+    <div class="item" id="audio">
+      <h3>Sound and mic</h3>
+      <dl class="defs">
+        <div class="def"><dt>Audio output</dt><dd>Headset plays game sound in the headset and mutes the PC. Desktop keeps it on the PC. <span class="tag live">live</span></dd></div>
+        <div class="def"><dt>Game audio</dt><dd>Default output sends everything you hear. VR game sends only the game. <span class="tag live">live</span></dd></div>
+        <div class="def"><dt>Headset mic</dt><dd>Your Vision Pro's microphone as a mic on the PC, for voice chat and team radio. Mute it any time from the pill.</dd></div>
+      </dl>
+      <p><b>Microphone, one-time setup.</b> Windows games can only use a microphone device, so the headset mic needs a free virtual cable:</p>
+      <dl class="defs">
+        <div class="def"><dt>1</dt><dd>Download <a href="https://vb-audio.com/Cable/">VB-Cable</a> (free), run its installer as administrator and restart if it asks. KRVR offers the link itself the first time it finds no cable.</dd></div>
+        <div class="def"><dt>2</dt><dd>Leave Headset mic in KRVR on <b>Auto</b>. It finds the cable by itself.</dd></div>
+        <div class="def"><dt>3</dt><dd>In your game, Discord or team radio, choose <b>CABLE Output</b> as the microphone.</dd></div>
+      </dl>
+      <p class="note">If CABLE Input isn't listed after installing, Windows left it disabled: open Sound settings, Recording devices, right-click CABLE Input and choose Enable.</p>
+    </div>
+
+    <div class="item">
+      <h3>Games, Statistics, Diagnose</h3>
+      <div class="shot">
+        <div class="pc"><div class="pc-btns"><span class="pc-btn">Games</span><span class="pc-btn">Statistics</span><span class="pc-btn">Setup guide</span><span class="pc-btn">Diagnose</span></div></div>
+      </div>
+      <dl class="defs">
+        <div class="def"><dt>Games</dt><dd>Choose which games show in the headset, and add any KRVR didn't find. Search, filter and switch between covers and a list. Right-click a game to pick your own cover picture.</dd></div>
+        <div class="def"><dt>Statistics</dt><dd>Live stream numbers, your past sessions per game, and a benchmark of your system.</dd></div>
+        <div class="def"><dt>Diagnose</dt><dd>Makes a report of your setup and recent logs. Send it in Discord when you ask for help.</dd></div>
+        <div class="def"><dt>Update now</dt><dd>Appears when a new version is out. SteamVR, any VR game and KRVR close first.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== PILL ===================== -->
+  <section class="part" id="pill">
+    <div class="part-head">
+      <div class="kicker">Part 3</div>
+      <h2>The pill</h2>
+      <p>The bar that floats in front of you in the headset. Pinch an icon to use it. You choose which icons it shows in Settings, Pill bar.</p>
+    </div>
+
+    <div class="item">
+      <div class="shot">
+        <div class="pillbox">
+          <div class="avp">
+            <div class="ico x puck">&#10005;<b>1</b></div>
+            <div class="ico on puck">&#9673;<b>2</b></div>
+            <div class="ico puck">&#128274;<b>3</b></div>
+            <div class="ico puck">&#128065;<b>4</b></div>
+            <div class="ico puck">&#9719;<b>5</b></div>
+            <div class="ico puck">&#9707;<b>6</b></div>
+            <div class="ico puck">&#9881;<b>7</b></div>
+            <div class="stat puck"><small>FPS</small>90<b style="position:static;margin-left:4px">8</b></div>
+          </div>
+        </div>
+        <div class="cap">Your pill may show different icons, depending on what you pinned.</div>
+      </div>
+      <ul class="legend">
+        <li><i>1</i><span><b>Leave</b>: hold the red X for a second. SteamVR and your game keep running on the PC.</span></li>
+        <li><i>2</i><span><b>Input</b>: switch between controllers and hand tracking, even mid-game.</span></li>
+        <li><i>3</i><span><b>Lock</b>: stops headset gestures firing when you turn a wheel or flip a controller.</span></li>
+        <li><i>4</i><span><b>View</b>: change how much of your real room shows through.</span></li>
+        <li><i>5</i><span><b>Cockpit</b>: show or hide your cockpit window.</span></li>
+        <li><i>6</i><span><b>Desktop</b>: show your PC desktop in the headset.</span></li>
+        <li><i>7</i><span><b>Settings</b>: everything in the next parts of this guide.</span></li>
+        <li><i>8</i><span><b>Stats</b>: live numbers. Pin more in Pill bar.</span></li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <h3>Moving and sizing the pill</h3>
+      <p>Tap the pill and use the bar that appears under it to move it. <b>Interface size</b> in Settings, Pill bar sets how big the pill and Settings window are. <b>Cover size</b> sets the game covers separately.</p>
+    </div>
+
+    <div class="item">
+      <h3>Your PC desktop</h3>
+      <p>The desktop icon shows your PC screen in the headset. Point with your hand, pinch to click, pinch and drag to move the cursor. The bar under the panel moves it.</p>
+    </div>
+
+    <div class="item">
+      <h3>What the stats mean</h3>
+      <dl class="defs">
+        <div class="def"><dt>FPS</dt><dd>The game's frame rate.</dd></div>
+        <div class="def"><dt>HZ</dt><dd>The rate reaching the headset.</dd></div>
+        <div class="def"><dt>M2P</dt><dd>Motion to photon: the time from moving your head to seeing it.</dd></div>
+        <div class="def"><dt>ENC, AIR, DEC, DISP</dt><dd>The steps inside M2P: encode on the PC, Wi-Fi, decode on the headset, wait for the display.</dd></div>
+        <div class="def"><dt>LATE</dt><dd>Frames that arrived late this second. 0 is healthy.</dd></div>
+        <div class="def"><dt>HEAT</dt><dd>How warm the headset is running.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== GAMES ===================== -->
+  <section class="part" id="games">
+    <div class="part-head">
+      <div class="kicker">Part 4</div>
+      <h2>Games</h2>
+      <p>Your PC's games, as covers in the headset.</p>
+    </div>
+    <div class="item">
+      <h3>Two kinds of game, both handled for you</h3>
+      <dl class="defs">
+        <div class="def"><dt>OpenXR games</dt><dd>Run straight into KRVR. Pick OpenXR in the game's launch options if it asks. Le Mans Ultimate, iRacing, DCS and Microsoft Flight Simulator are OpenXR.</dd></div>
+        <div class="def"><dt>SteamVR games</dt><dd>Start through SteamVR as usual. Half-Life: Alyx, VRChat and No Man's Sky are SteamVR.</dd></div>
+      </dl>
+      <p class="note">Connect first, then start the game. The first minute is loading and settling, so judge the picture once you're actually playing.</p>
+    </div>
+    <div class="item">
+      <dl class="defs">
+        <div class="def"><dt>Start a game</dt><dd>Hold a cover. The game starts on your PC and streams to you.</dd></div>
+        <div class="def"><dt>Stop a game</dt><dd>Hold the cover of the running game again.</dd></div>
+        <div class="def"><dt>Search</dt><dd>Find a game by name.</dd></div>
+        <div class="def"><dt>Which games show</dt><dd>Choose them on the PC in the Games window.</dd></div>
+      </dl>
+      <p class="note">SteamVR games need SteamVR room setup done once on the PC. Your height comes from the headset, so there's nothing else to calibrate.</p>
+    </div>
+  </section>
+
+  <!-- ===================== QUALITY ===================== -->
+  <section class="part" id="quality">
+    <div class="part-head">
+      <div class="kicker">Part 5 · Settings &gt; Quality</div>
+      <h2>Picture quality</h2>
+      <p>KRVR sends your eyes full detail where you look and less towards the edges, following your gaze. That's how a sharp picture fits over Wi-Fi.</p>
+    </div>
+
+    <div class="item">
+      <h3>Foveation</h3>
+      <div class="two">
+        <div class="card">
+          <div class="card-h"><span class="badge" style="color:#58d6c4;background:rgba(88,214,196,0.16)">&#9678;</span>Foveation</div>
+          <div class="fov">
+            <img alt="The preview in the app: the gauge you look at is sharp, the rest gets softer towards the edges" src="data:image/jpeg;base64,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OLx3bxyDKdKyPFfjeDULMRKgHNDYkeSRafej7ordg8L69cRiSNSVPvSW2qo4yRXo+m+L4LW0WIpnAoBnnFz4W1q3jMjoRj3qPT9C1ediEBP416NqHi6G6gMQTGaztL8QRWjklc5p3Gcjc+HtRjyZV5rgrxGiuGjbqK9g1fxfEzkBeteRahKLm7eYfxE1LAq0UUUDCiiigAooooAKKKKAP//V/FuiiiugyCiiigAooooAKKKKALdrey2j74+tWZtYuLg/PWXSYFAFlrh3OTSRTvFIJF6ioKKANCfUp7hdr1RLFjk02igDTj1a4hQIvQVYHiC7Q5FYmKTFAG5/wkeqE8SkCql1qV3dgCZy2KzsCloAkErjoaQyyFgxPIplFAGsut6iqhVkOB/n0px1/VcbfNODWPRQBo/2vf8A981VmuJpzulYmoKKAFBI5FaP9qXgUKJG496zaKAL91qFxdRCKZ2YDsTmoIbme3bdExH0NV6KANGTVL2SPY0jEfWqDOzHLHNNooAKsw3UsI2oxA9qrUUATSzPI24M351EWmI/1jfnSUUALlj1NOMs5GPMb8zTKKAANMP+WjfnT1lnU/LIR+NMooAUvMT/AKxvzpMk9aKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigApcyD7jFfpSUUAKWlP33LfU0mWHAJA9KKKAFBIOVODTjNcnjzWx9aZRQAu52++xb60lFFAE8c8i8M7EDtniro1W7HAkYD61l0UAbP9tXhXaZG/Os+a5kmJLknPrVaigQ4O4GATinRyNHIJQeR3qOigZqf2tebw3mNx70s2rXkpyZGP41lUUAXv7Quu0jfnVeWd5fvEnHrUNFADldk+7V2LUruE5jcjFUKKALs2oXVw++VyTTo9TvYuY3IqhRQI0X1e/lUo75BrPJJ60lFAwrRg1Oe3j8tOlZ1FAGn/AGtcZzUc2oTTLtaqGKKBFqO8kiHFWhq9wo2isujFAGmdWnNKNXuBWXijFAy1NeSTtuaqxOTmkooAKKKKACiiigAooooAKKKKAP/W/FuiiiugyCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9f8W6KKK6DIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0PxboooroMgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/R/FuiiiugyCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9L8W6KKK6DIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0/xboooroMgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/U/FuiiiugyCiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9k=">
+            <svg viewBox="0 0 120 95" aria-hidden="true">
+              <rect x="0.4" y="0.4" width="104.2" height="94.2" rx="28.5" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+              <rect x="15.4" y="0.4" width="104.2" height="94.2" rx="28.5" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+              <circle cx="60" cy="45" r="18" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.4" stroke-dasharray="1.6 1.2"/>
+              <circle cx="60" cy="45" r="9" fill="none" stroke="#4fddf5" stroke-width="0.7"/>
+              <circle cx="60" cy="45" r="0.9" fill="#fff"/>
+              <text x="4" y="6" font-size="3" font-weight="700" fill="rgba(232,238,244,0.45)" font-family="-apple-system,Segoe UI,sans-serif">LEFT EYE</text>
+              <text x="116" y="6" font-size="3" font-weight="700" text-anchor="end" fill="rgba(232,238,244,0.45)" font-family="-apple-system,Segoe UI,sans-serif">RIGHT EYE</text>
+            </svg>
+          </div>
+          <div class="cap" style="text-align:center">The circle is where you are looking.</div>
+          <div class="readout">Stream <b>1696 × 1360</b> per eye</div>
+          <div class="gsl"><span>Fovea size</span><span class="tr"><i style="width:10%"></i><u style="left:10%"></u></span><span class="v">9°</span></div>
+          <div class="gsl-help">How big the sharp area around where you look is.</div>
+          <div class="gsl"><span>Periphery</span><span class="tr"><i style="width:29%"></i><u style="left:29%"></u></span><span class="v">6</span></div>
+          <div class="gsl-help">How soft the picture gets outside the sharp area.</div>
+          <div class="gsl"><span>Fovea resolution</span><span class="tr"><i style="width:80%"></i><u style="left:50%"></u></span><span class="v">130%</span></div>
+          <div class="gsl-help">Cleaner pixels inside the gaze area.</div>
+        </div>
+        <div class="item">
+          <p>The picture shows what the sliders do, with your gaze on the middle gauge. Green ticks mark the recommended setting.</p>
+          <dl class="defs">
+            <div class="def"><dt>Fovea size</dt><dd>Bigger if you notice blur when you glance around. <span class="tag live">live</span></dd></div>
+            <div class="def"><dt>Periphery</dt><dd>Lower if the sides of your view look soft. <span class="tag live">live</span></dd></div>
+            <div class="def"><dt>Fovea resolution</dt><dd>Cleaner pixels inside the gaze area. For more detail, raise Resolution on the PC. <span class="tag next">restart the game</span></dd></div>
+            <div class="def"><dt>Stream</dt><dd>The size of the picture sent to your headset. It changes as you move the sliders.</dd></div>
+          </dl>
+          <p class="note">If a slider stops and it says "This is the most your headset can show", you've reached what your headset can decode.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="item">
+      <h3>Bitrate, sharpen and picture</h3>
+      <dl class="defs">
+        <div class="def"><dt>Bitrate</dt><dd>Leave it on Auto. It follows what your Wi-Fi and headset can carry and shows the rate it's using. Manual lets you set it yourself.</dd></div>
+        <div class="def"><dt>Sharpen</dt><dd>Crisper detail. <span class="tag live">live</span></dd></div>
+        <div class="def"><dt>Brightness, Contrast, Saturation</dt><dd>Adjust the picture to taste. <span class="tag live">live</span></dd></div>
+        <div class="def"><dt>FOV Crop</dt><dd>Trims edges of the view you can't see through the lenses, so the game draws less. Bring each line in until it sits just past what you can see. <span class="tag next">next game launch</span></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== PERFORMANCE ===================== -->
+  <section class="part" id="performance">
+    <div class="part-head">
+      <div class="kicker">Part 6 · Settings &gt; Performance</div>
+      <h2>Smoothness</h2>
+    </div>
+    <div class="item">
+      <dl class="defs">
+        <div class="def"><dt>Motion Smoothing <span class="seg"><span>Off</span><span class="on">On</span></span></dt><dd>On: when a game can't keep up, in-between frames are made so motion stays fluid. Best for demanding sims. Off: every frame the game makes is shown as it is. <span class="tag live">live</span></dd></div>
+        <div class="def"><dt>Frame delivery <span class="seg"><span class="on">Smooth</span><span>Fast</span></span></dt><dd>Smooth holds one frame in hand for the steadiest motion. Fast shows each frame the moment it arrives, a little sooner. <span class="tag live">live</span></dd></div>
+        <div class="def" id="refresh"><dt>Refresh rate (M5)</dt><dd>90 Hz or 120 Hz. 120 Hz is smoother on an M5 Vision Pro when the game can hold 120 fps. Use Mixed immersion for 120 Hz: in Full, Vision Pro usually keeps the display at 90. <span class="tag live">live</span></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== CONTROLLERS ===================== -->
+  <section class="part" id="controllers">
+    <div class="part-head">
+      <div class="kicker">Part 7 · Settings &gt; Controllers</div>
+      <h2>Controllers and hands</h2>
+    </div>
+    <div class="item">
+      <dl class="defs">
+        <div class="def"><dt>Input</dt><dd>PSVR2 controllers or your hands. Switch here or with the input icon on the pill, even mid-game.</dd></div>
+        <div class="def"><dt>Prediction</dt><dd>Auto follows your connection. If controllers seem to run ahead or lag behind, set Manual and adjust by feel. OpenXR games only: SteamVR does its own.</dd></div>
+        <div class="def"><dt>Smoothing</dt><dd>Steadies small shakes, with a little lag.</dd></div>
+        <div class="def"><dt>Hand tracking</dt><dd>Works in games that read hands, such as VRChat.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== SPACE ===================== -->
+  <section class="part" id="space">
+    <div class="part-head">
+      <div class="kicker">Part 8 · Settings &gt; Passthrough</div>
+      <h2>Your real room</h2>
+      <p>See parts of your real room inside the game. Turning any of these on lets your room show through.</p>
+    </div>
+
+    <div class="item">
+      <h3>Immersion</h3>
+      <dl class="defs">
+        <div class="def"><dt>Full</dt><dd>Hides your room completely.</dd></div>
+        <div class="def"><dt>Mixed</dt><dd>Keeps your room behind the game. Needed for masks, and for 120 Hz.</dd></div>
+        <div class="def"><dt>Progressive</dt><dd>The Digital Crown fades your room in and out.</dd></div>
+      </dl>
+      <p class="note">Change it with the view icon on the pill.</p>
+    </div>
+    <div class="item">
+      <h3>Cockpit</h3>
+      <p>A window onto your wheel and the gear around it. Press <b>Place</b>, rest both hands on the wheel, and it locks on after a 3-2-1. It stays fixed in your room. Size, position and softness are on its page, and the wheel icon on the pill hides and shows it.</p>
+    </div>
+    <div class="item">
+      <h3>Hand discs</h3>
+      <p>A window to your real hands at each wrist, so you can find a keyboard, a drink or your gear stick. Turn <b>Merge</b> on and the two discs join when your hands come together.</p>
+    </div>
+    <div class="item">
+      <h3>Masks</h3>
+      <p>A window in the game that shows the real thing behind it, like your keyboard. On the Masks page press <b>Add a mask</b>, name it and pick <b>Box</b> or <b>Freehand</b>.</p>
+      <dl class="defs">
+        <div class="def"><dt>Box</dt><dd>Pinch the orb onto the thing, press Place here, then drag the corner dots to fit.</dd></div>
+        <div class="def"><dt>Freehand</dt><dd>Press Start drawing and trace round it with the pencil.</dd></div>
+        <div class="def"><dt>Fine tune</dt><dd>Move, Orient and Shape, then Save.</dd></div>
+      </dl>
+    </div>
+    <div class="item">
+      <h3>Roomscale</h3>
+      <p>Draw your play space once: press <b>Draw</b>, then at each corner pull the right trigger or pinch and hold. A green post marks each corner. Press <b>Done</b>. Near your edge the room fades in, and the game returns when you step back.</p>
+    </div>
+    <div class="item">
+      <h3>Height</h3>
+      <p>Your height comes from the headset. The Height slider in Settings is a comfort offset, for example sitting down in a standing game.</p>
+    </div>
+  </section>
+
+  <!-- ===================== HELP ===================== -->
+  <section class="part" id="help">
+    <div class="part-head">
+      <div class="kicker">Part 9</div>
+      <h2>When something's wrong</h2>
+    </div>
+    <div class="fixes">
+      <div class="fix"><div class="n">1</div><div><h4>Can't connect</h4><p>See the <a href="#connect">Connect</a> steps, including the four fixes when it bounces back.</p></div></div>
+      <div class="fix"><div class="n">2</div><div><h4>Picture soft or blocky</h4><p>Leave Bitrate on Auto. If it still breaks up, raise Periphery or lower Fovea size so fewer bits go to the edges. Keep the headset on 5 GHz Wi-Fi, not 2.4 GHz, and the PC on a cable.</p></div></div>
+      <div class="fix"><div class="n">3</div><div><h4>Game stutters</h4><p>Lower Resolution on the PC, or turn Motion Smoothing on.</p></div></div>
+      <div class="fix"><div class="n">4</div><div><h4>Controllers feel off</h4><p>Set Prediction to Manual and adjust by feel. In SteamVR games the PC handles it.</p></div></div>
+      <div class="fix"><div class="n">5</div><div><h4>Game opens on the monitor, not in the headset</h4><p>Connect before starting the game. OpenXR games: another VR app may have taken over, so set OpenXR runtime back to KRVR on the PC. SteamVR games: SteamVR should show KRVR as the headset; if not, restart SteamVR after connecting.</p></div></div>
+      <div class="fix"><div class="n">6</div><div><h4>Stuck connecting</h4><p>Press Stop then Start on the PC, then Connect again.</p></div></div>
+      <div class="fix"><div class="n">7</div><div><h4>A game looks odd the first time</h4><p>Some games draw in unusual ways. KRVR measures and corrects them each session, which can take a few seconds the first time.</p></div></div>
+      <div class="fix"><div class="n">8</div><div><h4>No sound in the headset</h4><p>Set Audio output to Headset on the PC, and check Game audio points at the device the game plays through.</p></div></div>
+      <div class="fix"><div class="n">9</div><div><h4>Installer says files are still the old version</h4><p>SteamVR or a game was holding them. Close them and run the installer again. If it persists, restart the PC and run the installer before opening anything else.</p></div></div>
+      <div class="fix"><div class="n">10</div><div><h4>Taking the headset off ends the session</h4><p>visionOS drops the network when the headset sleeps. Press Connect again when you put it back on.</p></div></div>
+    </div>
+    <div class="item">
+      <h3>Getting help</h3>
+      <p>Every session is logged on the PC, the headset side included. Press <b>Diagnose</b> in the PC window and send the report in our Discord, with roughly when the problem happened.</p>
+    </div>
+  </section>
+</div>
 
 <footer>
     <div class="container">
@@ -537,6 +765,5 @@
         <p class="footer-copy">KRVR is a product of KRXR LTD, registered in England &amp; Wales, company no. 17367119. Registered office: 71-75 Shelton Street, Covent Garden, London WC2H 9JQ, United Kingdom. Contact: karl@krvr.app</p>
     </div>
 </footer>
-
 </body>
 </html>
