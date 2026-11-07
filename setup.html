@@ -484,6 +484,7 @@ body { padding-top: 96px !important; }
       <dl class="defs">
         <div class="def"><dt>Audio output</dt><dd>Headset plays game sound in the headset and mutes the PC. Desktop keeps it on the PC. <span class="tag live">live</span></dd></div>
         <div class="def"><dt>Game audio</dt><dd>Default output sends everything you hear. VR game sends only the game. <span class="tag live">live</span></dd></div>
+        <div class="def"><dt>Sound in the headset</dt><dd>On the headset, Settings, Sound. Stereo plays the game's own mix straight to your ears. Spatial places it around you. <span class="tag live">live</span></dd></div>
         <div class="def"><dt>Headset mic</dt><dd>Your Vision Pro's microphone as a mic on the PC, for voice chat and team radio. Mute it any time from the pill.</dd></div>
       </dl>
       <p><b>Microphone, one-time setup.</b> Windows games can only use a microphone device, so the headset mic needs a free virtual cable:</p>
@@ -607,6 +608,7 @@ body { padding-top: 96px !important; }
       <p>Nothing to turn on, in the headset or on the PC. KRVR always tracks your eyes for its foveated streaming, so any game with eye tracking can use it as soon as you're connected, in both OpenXR and SteamVR games. Just switch on eye tracking in the game's own settings.</p>
       <dl class="defs">
         <div class="def"><dt>VRChat</dt><dd>Turn on OSC in VRChat's settings and your avatar's eyes follow yours.</dd></div>
+        <div class="def" id="face-tracking"><dt>Face tracking</dt><dd>On the headset, Settings, Controllers, Face tracking On, and allow the camera. In VRChat, with OSC on and an avatar that supports it, your avatar's eyes, blinks, mouth, lips and tongue follow yours.</dd></div>
       </dl>
     </div>
   </section>
@@ -680,6 +682,7 @@ body { padding-top: 96px !important; }
         <div class="def"><dt>Motion Smoothing <span class="seg"><span>Off</span><span class="on">On</span></span></dt><dd>On: when a game can't keep up, in-between frames are made so motion stays fluid. Best for demanding sims. Off: every frame the game makes is shown as it is. <span class="tag live">live</span></dd></div>
         <div class="def"><dt>Frame delivery <span class="seg"><span class="on">Smooth</span><span>Fast</span></span></dt><dd>Smooth holds one frame in hand for the steadiest motion. Fast shows each frame the moment it arrives, a little sooner. <span class="tag live">live</span></dd></div>
         <div class="def" id="vibration"><dt>Vibration smoothing <span class="seg"><span class="on">Off</span><span>Auto</span><span>Manual</span></span></dt><dd>For seat shakers, bass shakers and motion rigs: steadies the view when your seat makes the headset vibrate. Auto finds the right amount by itself; Manual gives you a slider, raise it until the bar stays low. Leave it Off if nothing vibrates. <span class="tag live">live</span></dd></div>
+        <div class="def" id="video-link"><dt>Video link <span class="seg"><span class="on">UDP</span><span>TCP</span></span></dt><dd>How the picture travels. UDP, the default: a lost piece is repaired when possible, otherwise that frame is dropped and a new one asked for. TCP: a lost piece is sent again and the picture waits for it. Switches mid-game. <span class="tag live">live</span></dd></div>
         <div class="def" id="refresh"><dt>Refresh rate (M5)</dt><dd>90 Hz or 120 Hz. 120 Hz is smoother on an M5 Vision Pro when the game can hold 120 fps. Use Mixed immersion for 120 Hz: in Full, Vision Pro usually keeps the display at 90. <span class="tag live">live</span></dd></div>
       </dl>
     </div>
@@ -722,6 +725,10 @@ body { padding-top: 96px !important; }
       <h3>Cockpit</h3>
       <p>A window onto your wheel and the gear around it. Press <b>Place</b>, rest both hands on the wheel, and it locks on after a 3-2-1. It stays fixed in your room. Size, position and softness are on its page, and the wheel icon on the pill hides and shows it.</p>
     </div>
+    <div class="item" id="helmet">
+      <h3>Helmet</h3>
+      <p>The inside of a GT, Formula or pilot helmet around your view, over the game and your room. The helmet icon on the pill puts it on and takes it off. On the headset, Settings, Passthrough, Helmet shapes it, and a button on your wheel or stick can switch it. The pilot helmet has night vision.</p>
+    </div>
     <div class="item">
       <h3>Hand discs</h3>
       <p>A window to your real hands at each wrist, so you can find a keyboard, a drink or your gear stick. Turn <b>Merge</b> on and the two discs join when your hands come together.</p>
@@ -761,7 +768,7 @@ body { padding-top: 96px !important; }
       <div class="fix"><div class="n">7</div><div><h4>A game looks odd the first time</h4><p>Some games draw in unusual ways. KRVR measures and corrects them each session, which can take a few seconds the first time.</p></div></div>
       <div class="fix"><div class="n">8</div><div><h4>No sound in the headset</h4><p>Set Audio output to Headset on the PC, and check Game audio points at the device the game plays through.</p></div></div>
       <div class="fix"><div class="n">9</div><div><h4>Installer says files are still the old version</h4><p>SteamVR or a game was holding them. Close them and run the installer again. If it persists, restart the PC and run the installer before opening anything else.</p></div></div>
-      <div class="fix"><div class="n">10</div><div><h4>Taking the headset off ends the session</h4><p>visionOS drops the network when the headset sleeps. Press Connect again when you put it back on.</p></div></div>
+      <div class="fix"><div class="n">10</div><div><h4>Taking the headset off</h4><p>KRVR pauses. Put it back on and you carry on where you left off, in the same spot.</p></div></div>
     </div>
     <div class="item">
       <h3>Getting help</h3>
