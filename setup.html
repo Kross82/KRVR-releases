@@ -292,7 +292,7 @@ body { padding-top: 96px !important; }
       <a href="#quality"><b>Picture quality</b><span>Bitrate, foveation, crop</span></a>
       <a href="#performance"><b>Smoothness</b><span>Motion Smoothing, frame delivery</span></a>
       <a href="#controllers"><b>Controllers and hands</b><span>PSVR2, hand tracking, feel</span></a>
-      <a href="#space"><b>Your real room</b><span>Cockpit, hand discs, masks, roomscale</span></a>
+      <a href="#space"><b>Your real room</b><span>Cockpit, helmet, hand discs, roomscale</span></a>
       <a href="#help"><b>When something's wrong</b><span>Fixes and how to get help</span></a>
     </div>
   </header>
@@ -466,6 +466,7 @@ body { padding-top: 96px !important; }
         <div class="def"><dt>FoV scale</dt><dd>How much of the view the game draws. Below 100% is narrower and sharper. <span class="tag next">next game launch</span></dd></div>
         <div class="def"><dt>IPD</dt><dd>The distance between your eyes. If the world feels too small, lower it. Too big, raise it. 64 suits most people.</dd></div>
       </dl>
+      <p class="note">Changing one of these, or the encoder, restarts the KRVR server by itself a few seconds later. A connected headset reconnects on its own.</p>
     </div>
 
     <div class="item">
@@ -497,14 +498,15 @@ body { padding-top: 96px !important; }
     </div>
 
     <div class="item">
-      <h3>Games, Statistics, Diagnose</h3>
+      <h3>Games, Statistics, Diagnose, Report</h3>
       <div class="shot">
-        <div class="pc"><div class="pc-btns"><span class="pc-btn">Games</span><span class="pc-btn">Statistics</span><span class="pc-btn">Setup guide</span><span class="pc-btn">Diagnose</span></div></div>
+        <div class="pc"><div class="pc-btns"><span class="pc-btn">Games</span><span class="pc-btn">Statistics</span><span class="pc-btn">Setup guide</span><span class="pc-btn">Diagnose</span><span class="pc-btn">Report</span></div></div>
       </div>
       <dl class="defs">
         <div class="def"><dt>Games</dt><dd>Choose which games show in the headset, and add any KRVR didn't find. Search, filter and switch between covers and a list. Right-click a game to pick your own cover picture.</dd></div>
         <div class="def"><dt>Statistics</dt><dd>Live stream numbers, your past sessions per game, and side-by-side comparisons. More below.</dd></div>
-        <div class="def"><dt>Diagnose</dt><dd>Makes a report of your setup and recent logs. Send it in Discord when you ask for help.</dd></div>
+        <div class="def"><dt>Diagnose</dt><dd>Checks your setup for known problems and offers the fix.</dd></div>
+        <div class="def"><dt>Report</dt><dd>Writes one file, KRVR Report. Send it in Discord, or drop it into any AI chat, and say what went wrong.</dd></div>
         <div class="def"><dt>Update now</dt><dd>Appears when a new version is out. SteamVR, any VR game and KRVR close first.</dd></div>
       </dl>
     </div>
@@ -663,7 +665,7 @@ body { padding-top: 96px !important; }
     <div class="item">
       <h3>Bitrate, sharpen and picture</h3>
       <dl class="defs">
-        <div class="def"><dt>Bitrate</dt><dd>Leave it on Auto. It follows what your Wi-Fi and headset can carry and shows the rate it's using. Manual lets you set it yourself.</dd></div>
+        <div class="def"><dt>Bitrate</dt><dd>Leave it on Auto. It follows what your Wi-Fi and headset can carry and shows the rate it's using. Manual lets you set it yourself, up to 800 Mbps.</dd></div>
         <div class="def"><dt>Sharpen</dt><dd>Crisper detail. <span class="tag live">live</span></dd></div>
         <div class="def"><dt>Brightness, Contrast, Saturation</dt><dd>Adjust the picture to taste. <span class="tag live">live</span></dd></div>
         <div class="def"><dt>FOV Crop</dt><dd>Trims edges of the view you can't see through the lenses, so the game draws less. Bring each line in until it sits just past what you can see. <span class="tag next">next game launch</span></dd></div>
@@ -680,6 +682,7 @@ body { padding-top: 96px !important; }
     <div class="item">
       <dl class="defs">
         <div class="def"><dt>Motion Smoothing <span class="seg"><span>Off</span><span class="on">On</span></span></dt><dd>On: when a game can't keep up, in-between frames are made so motion stays fluid. Best for demanding sims. Off: every frame the game makes is shown as it is. <span class="tag live">live</span></dd></div>
+        <div class="def" id="frame-generation"><dt>Frame generation <span class="seg"><span class="on">Off</span><span>Auto</span><span>2x</span><span>3x</span><span>4x</span></span></dt><dd>On the headset, Settings, Frame generation, or hold the smoothing chip on the pill. The game runs at an even share of the headset's rate and the frames in between are made from its motion, so 45 becomes 90. The FPS number shows both, like 45 → 90. Auto picks the share for you and leaves a game alone when it is already fast enough. For OpenXR games on a Windows PC with an NVIDIA or AMD graphics card; SteamVR games use Motion Smoothing. It takes the place of Motion Smoothing while it is on. <span class="tag live">live</span></dd></div>
         <div class="def"><dt>Frame delivery <span class="seg"><span class="on">Smooth</span><span>Fast</span></span></dt><dd>Smooth holds one frame in hand for the steadiest motion. Fast shows each frame the moment it arrives, a little sooner. <span class="tag live">live</span></dd></div>
         <div class="def" id="vibration"><dt>Vibration smoothing <span class="seg"><span class="on">Off</span><span>Auto</span><span>Manual</span></span></dt><dd>For seat shakers, bass shakers and motion rigs: steadies the view when your seat makes the headset vibrate. Auto finds the right amount by itself; Manual gives you a slider, raise it until the bar stays low. Leave it Off if nothing vibrates. <span class="tag live">live</span></dd></div>
         <div class="def" id="video-link"><dt>Video link <span class="seg"><span class="on">UDP</span><span>TCP</span></span></dt><dd>How the picture travels. UDP, the default: a lost piece is repaired when possible, otherwise that frame is dropped and a new one asked for. TCP: a lost piece is sent again and the picture waits for it. Switches mid-game. <span class="tag live">live</span></dd></div>
@@ -716,14 +719,23 @@ body { padding-top: 96px !important; }
       <h3>Immersion</h3>
       <dl class="defs">
         <div class="def"><dt>Full</dt><dd>Hides your room completely.</dd></div>
-        <div class="def"><dt>Mixed</dt><dd>Keeps your room behind the game. Needed for masks, and for 120 Hz.</dd></div>
+        <div class="def"><dt>Mixed</dt><dd>Keeps your room behind the game. Needed for the cockpit, and for 120 Hz.</dd></div>
         <div class="def"><dt>Progressive</dt><dd>The Digital Crown fades your room in and out.</dd></div>
       </dl>
       <p class="note">Change it with the view icon on the pill.</p>
     </div>
-    <div class="item">
+    <div class="item" id="cockpit">
       <h3>Cockpit</h3>
-      <p>A window onto your wheel and the gear around it. Press <b>Place</b>, rest both hands on the wheel, and it locks on after a 3-2-1. It stays fixed in your room. Size, position and softness are on its page, and the wheel icon on the pill hides and shows it.</p>
+      <p>Windows in the game onto your real gear: a wheel, a button box, a keyboard, your pedals. A <b>profile</b> is one rig and holds its <b>pieces</b>. On the Cockpit page press <b>New profile</b>, then <b>Add piece</b>, and pick how to make its shape.</p>
+      <dl class="defs">
+        <div class="def"><dt>Photo</dt><dd>Choose a photo of the thing, taken straight on. Drag the dots to fit its outline and press Done. Then pinch the piece, lay it over the real thing and press Done.</dd></div>
+        <div class="def"><dt>Shape</dt><dd>A Box or a Circle appears in front of you. Pinch it and lay it over the real thing; turn your hand to tilt it, use two hands to resize it. Press Done, then drag the handles to fit its edges.</dd></div>
+        <div class="def"><dt>Draw</dt><dd>A pencil appears. Pinch it to move it, tap it, then trace round the real thing. Drag the handles to tidy the line and press Done.</dd></div>
+        <div class="def"><dt>Each piece</dt><dd>Its page has size, position, tilt and Softness. <b>Place in your room</b> moves it again by hand. A piece can follow your wheel as it turns.</dd></div>
+        <div class="def"><dt>Copy and move</dt><dd><b>Copy</b> puts a piece into another profile. <b>Move whole profile</b> shifts all its pieces together, for small corrections.</dd></div>
+        <div class="def"><dt>Quick button</dt><dd>Give a profile a button on your wheel or a key on your keyboard to switch it on and off.</dd></div>
+      </dl>
+      <p class="note">Each profile has its own switch, and the wheel icon on the pill hides and shows the cockpit.</p>
     </div>
     <div class="item" id="helmet">
       <h3>Helmet</h3>
@@ -732,15 +744,6 @@ body { padding-top: 96px !important; }
     <div class="item">
       <h3>Hand discs</h3>
       <p>A window to your real hands at each wrist, so you can find a keyboard, a drink or your gear stick. Turn <b>Merge</b> on and the two discs join when your hands come together.</p>
-    </div>
-    <div class="item">
-      <h3>Masks</h3>
-      <p>A window in the game that shows the real thing behind it, like your keyboard. On the Masks page press <b>Add a mask</b>, name it and pick <b>Box</b> or <b>Freehand</b>.</p>
-      <dl class="defs">
-        <div class="def"><dt>Box</dt><dd>Pinch the orb onto the thing, press Place here, then drag the corner dots to fit.</dd></div>
-        <div class="def"><dt>Freehand</dt><dd>Press Start drawing and trace round it with the pencil.</dd></div>
-        <div class="def"><dt>Fine tune</dt><dd>Move, Orient and Shape, then Save.</dd></div>
-      </dl>
     </div>
     <div class="item">
       <h3>Roomscale</h3>
@@ -761,7 +764,7 @@ body { padding-top: 96px !important; }
     <div class="fixes">
       <div class="fix"><div class="n">1</div><div><h4>Can't connect</h4><p>See the <a href="#connect">Connect</a> steps, including the four fixes when it bounces back.</p></div></div>
       <div class="fix"><div class="n">2</div><div><h4>Picture soft or blocky</h4><p>Leave Bitrate on Auto. If it still breaks up, raise Periphery or lower Fovea size so fewer bits go to the edges. Keep the headset on 5 GHz Wi-Fi, not 2.4 GHz, and the PC on a cable.</p></div></div>
-      <div class="fix"><div class="n">3</div><div><h4>Game stutters</h4><p>Lower Resolution on the PC, or turn Motion Smoothing on.</p></div></div>
+      <div class="fix"><div class="n">3</div><div><h4>Game stutters</h4><p>Lower Resolution on the PC, or turn Motion Smoothing or Frame generation on.</p></div></div>
       <div class="fix"><div class="n">4</div><div><h4>Controllers feel off</h4><p>Set Prediction to Manual and adjust by feel. In SteamVR games the PC handles it.</p></div></div>
       <div class="fix"><div class="n">5</div><div><h4>Game opens on the monitor, not in the headset</h4><p>Connect before starting the game. OpenXR games: another VR app may have taken over, so set OpenXR runtime back to KRVR on the PC. SteamVR games: SteamVR should show KRVR as the headset; if not, restart SteamVR after connecting.</p></div></div>
       <div class="fix"><div class="n">6</div><div><h4>Stuck connecting</h4><p>Press Stop then Start on the PC, then Connect again.</p></div></div>
@@ -772,7 +775,7 @@ body { padding-top: 96px !important; }
     </div>
     <div class="item">
       <h3>Getting help</h3>
-      <p>Every session is logged on the PC, the headset side included. Press <b>Diagnose</b> in the PC window and send the report in our Discord, with roughly when the problem happened.</p>
+      <p>Every session is logged on the PC, the headset side included. Press <b>Report</b> in the PC window and send the file in our Discord, with roughly when the problem happened.</p>
     </div>
   </section>
 </div>
